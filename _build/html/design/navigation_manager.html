@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation Manager &mdash; EasyFleet 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../examples/index.html" />
+    <link rel="prev" title="Mission Manager" href="mission_manager.html" />
+
+<link rel="stylesheet" href="../_static/tcs_theme.css" type="text/css" />
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: orange" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EasyFleet
+              <img src="../_static/easyfleet_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build_install/index.html">Build &amp; Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#supported-platforms">Supported platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#run-tests-optional">Run tests (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#uninstall-clean">Uninstall / clean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#next-steps">Next steps</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#launching-the-deployment">Launching the deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#poking-at-the-robot-by-hand">Poking at the robot by hand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#watching-the-fleet-with-the-tui">Watching the fleet with the TUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#running-just-the-robot">Running just the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#next-steps">Next steps</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Design</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mission_manager.html">Mission Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#the-core-types">The core types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Navigation Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-a-fleet-wide-process-at-all">Why a fleet-wide process at all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fleet-wide-map-and-routes">Fleet-wide map and routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#live-editable-routes">Live-editable routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tying-the-frames-together">Tying the frames together</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tracking-which-robots-exist">Tracking which robots exist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-parameters">Key parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-s-a-capability">What’s a “capability”?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#interfaces">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-mission-control-side">The mission-control side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#robot-vs-mission-control">Robot vs. mission control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#alone-one-robot-three-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">alone</span></code>: one robot, three mocked capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide/index.html">Developer Info</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#api-reference-doxygen">API reference (Doxygen)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#repository-layout">Repository layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#building-and-testing">Building and testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#extending-easyfleet">Extending EasyFleet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/index.html#adding-a-capability-backend">Adding a capability backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/index.html#writing-your-own-mission-controller">Writing your own mission controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/index.html#adding-a-fleet-wide-map-representation">Adding a fleet-wide map representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#known-limitations">Known limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#getting-help-contributing">Getting help / contributing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">About and Contact</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../about/index.html#id1">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about/index.html#contact">Contact</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: orange" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EasyFleet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+
+<span style="float: right;" >
+    <a class="github-button" href="https://github.com/EasyNavigation/EasyNavigation.github.io" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" aria-label="Edit IntelligentRoboticsLabs/EasyNav.github.io on GitHub" ">Edit</a>
+</span>
+
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Design</a></li>
+      <li class="breadcrumb-item active">Navigation Manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="navigation-manager">
+<span id="design-navigation-manager"></span><h1>Navigation Manager<a class="headerlink" href="#navigation-manager" title="Permalink to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">easyfleet_navigation_manager</span></code> is a third kind of process, alongside a
+robot and mission control: <strong>one process per fleet</strong>, not per robot, that
+gives every robot’s own <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>
+instance a single, shared view of the map and the route graph, and watches
+every robot’s planned path to prevent them from colliding with each other.</p>
+<nav class="contents local" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#why-a-fleet-wide-process-at-all" id="id1">Why a fleet-wide process at all</a></p></li>
+<li><p><a class="reference internal" href="#fleet-wide-map-and-routes" id="id2">Fleet-wide map and routes</a></p></li>
+<li><p><a class="reference internal" href="#live-editable-routes" id="id3">Live-editable routes</a></p></li>
+<li><p><a class="reference internal" href="#tying-the-frames-together" id="id4">Tying the frames together</a></p></li>
+<li><p><a class="reference internal" href="#tracking-which-robots-exist" id="id5">Tracking which robots exist</a></p></li>
+<li><p><a class="reference internal" href="#conflict-detection-and-pause-resume" id="id6">Conflict detection and pause/resume</a></p></li>
+<li><p><a class="reference internal" href="#key-parameters" id="id7">Key parameters</a></p></li>
+</ul>
+</nav>
+<section id="why-a-fleet-wide-process-at-all">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Why a fleet-wide process at all</a><a class="headerlink" href="#why-a-fleet-wide-process-at-all" title="Permalink to this heading"></a></h2>
+<p>Left alone, every robot’s own EasyNav <code class="docutils literal notranslate"><span class="pre">maps_manager_node</span></code> loads its own
+local copy of the map and the route graph from disk. That works for one
+robot, but two robots sharing the same physical space need to agree on
+<em>the same</em> map and <em>the same</em> routes — and an operator editing a route
+should see that edit reflected on every robot, not just the one they
+happen to be looking at. <code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> is the single process
+that owns that shared state and every robot’s own EasyNav instance points
+at.</p>
+<div class="graphviz"><img src="../_images/graphviz-bc5e167a7b0557a06ba873ce1e9221ef07530941.png" alt="digraph nm {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontname=&quot;verdana&quot;];
+  &quot;navigation_manager_node&quot; -&gt; &quot;/global_map&quot; [style=dashed];
+  &quot;navigation_manager_node&quot; -&gt; &quot;/global_routes&quot; [style=dashed];
+  &quot;navigation_manager_node&quot; -&gt; &quot;/global_routes_markers\n(RViz visualization)&quot; [style=dashed];
+  &quot;navigation_manager_node&quot; -&gt; &quot;/tf_static\n(map -&gt; &lt;robot&gt;/map)&quot; [style=dashed];
+  &quot;/global_map&quot; -&gt; &quot;robot_1 maps_manager_node\n(incoming_map)&quot;;
+  &quot;/global_routes&quot; -&gt; &quot;robot_1 maps_manager_node\n(incoming_routes)&quot;;
+  &quot;/global_map&quot; -&gt; &quot;robot_2 maps_manager_node\n(incoming_map)&quot;;
+  &quot;/global_routes&quot; -&gt; &quot;robot_2 maps_manager_node\n(incoming_routes)&quot;;
+  &quot;navigation_manager_node&quot; -&gt; &quot;robot_1 planned path&quot; [label=&quot;watches&quot;, style=dotted];
+  &quot;navigation_manager_node&quot; -&gt; &quot;robot_2 planned path&quot; [label=&quot;watches&quot;, style=dotted];
+  &quot;navigation_manager_node&quot; -&gt; &quot;robot_1 EasyNav\n(pause/resume)&quot; [label=&quot;GoalManager\nprotocol&quot;];
+  &quot;navigation_manager_node&quot; -&gt; &quot;robot_2 EasyNav\n(pause/resume)&quot;;
+}" class="graphviz" /></div>
+</section>
+<section id="fleet-wide-map-and-routes">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Fleet-wide map and routes</a><a class="headerlink" href="#fleet-wide-map-and-routes" title="Permalink to this heading"></a></h2>
+<p>At startup, <code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> loads a map (currently a costmap,
+via a pluggable <code class="docutils literal notranslate"><span class="pre">MapPublisherBase</span></code> — more representations can be added as
+new factory entries) and a route graph, and publishes them:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/global_map</span></code> (<code class="docutils literal notranslate"><span class="pre">nav_msgs/OccupancyGrid</span></code>), transient-local — a robot
+that starts after this node still receives the retained map.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/global_routes</span></code> (<code class="docutils literal notranslate"><span class="pre">easynav_routes_maps_manager/RoutesMap</span></code>),
+transient-local, re-published every time the route graph is edited (see
+below).</p></li>
+</ul>
+<p>Each robot’s own <code class="docutils literal notranslate"><span class="pre">maps_manager_node</span></code> picks this up by remapping its own
+per-plugin <code class="docutils literal notranslate"><span class="pre">incoming_map</span></code>/<code class="docutils literal notranslate"><span class="pre">incoming_routes</span></code> topics <strong>to</strong> these two
+global ones (see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a> for the exact remap direction —
+it must point <em>from</em> the plugin’s own topic name <em>to</em> <code class="docutils literal notranslate"><span class="pre">/global_map</span></code>, the
+reverse silently does nothing) — so every robot ends up with the exact
+same map and routes, without each having to load or maintain its own copy.</p>
+</section>
+<section id="live-editable-routes">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Live-editable routes</a><a class="headerlink" href="#live-editable-routes" title="Permalink to this heading"></a></h2>
+<p>The route graph is not just published once — it can be edited <strong>live</strong>,
+directly in RViz, via the same interactive-marker mechanism EasyNav’s own
+<code class="docutils literal notranslate"><span class="pre">RoutesMapsManager</span></code> plugin uses locally: each route segment shows a
+toggle cube (red = view-only, green = edit mode); in edit mode, draggable
+start/end markers with move/rotate controls, plus “add segment” and
+“remove segment” buttons.</p>
+<p>Every geometry-changing edit (dragging an endpoint, adding, or removing a
+segment — not merely toggling edit mode) does two things automatically:</p>
+<ol class="arabic simple">
+<li><p>Re-publishes the updated route graph on <code class="docutils literal notranslate"><span class="pre">/global_routes</span></code>, so every
+robot picks up the edit immediately.</p></li>
+<li><p>Saves the change back to the same YAML file the routes were loaded
+from, so it survives a restart.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The plain visualization <code class="docutils literal notranslate"><span class="pre">MarkerArray</span></code> on <code class="docutils literal notranslate"><span class="pre">/global_routes_markers</span></code>
+is kept alive by a low-rate periodic republish, not transient-local
+durability — a late-joining RViz session reliably receiving the
+<em>retained</em> sample of that specific message type turned out not to be
+guaranteed in this environment. The interactive markers themselves
+don’t have this problem: they actively resend their full state to any
+newly connected client rather than relying on durability at all.</p>
+</div>
+</section>
+<section id="tying-the-frames-together">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Tying the frames together</a><a class="headerlink" href="#tying-the-frames-together" title="Permalink to this heading"></a></h2>
+<p>Every robot’s own EasyNav instance applies its <code class="docutils literal notranslate"><span class="pre">tf_prefix</span></code> to its local
+<code class="docutils literal notranslate"><span class="pre">map</span></code> frame (e.g. robot 1’s own frame is literally <code class="docutils literal notranslate"><span class="pre">robot_1/map</span></code>),
+while <code class="docutils literal notranslate"><span class="pre">/global_map</span></code>/<code class="docutils literal notranslate"><span class="pre">/global_routes</span></code> are both stamped with the plain,
+unprefixed <code class="docutils literal notranslate"><span class="pre">map</span></code> frame. For the two to line up in one TF tree,
+<code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> also broadcasts one static, identity transform
+<code class="docutils literal notranslate"><span class="pre">map</span></code> → <code class="docutils literal notranslate"><span class="pre">&lt;robot_id&gt;/map</span></code> per watched robot, on <code class="docutils literal notranslate"><span class="pre">/tf_static</span></code> — every
+robot in a fleet is assumed to share the exact same map, only their pose
+<em>within</em> it differs, so identity is the correct transform.</p>
+</section>
+<section id="tracking-which-robots-exist">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Tracking which robots exist</a><a class="headerlink" href="#tracking-which-robots-exist" title="Permalink to this heading"></a></h2>
+<p>The set of robots being watched (for the TF broadcast above, and for the
+conflict monitor below) can be configured two ways:</p>
+<ul class="simple">
+<li><p><strong>``robots.static_list``</strong> — a fixed list of robot namespaces. Simplest,
+and what every current example deployment uses.</p></li>
+<li><p><strong>Dynamic tracking</strong> (when <code class="docutils literal notranslate"><span class="pre">robots.static_list</span></code> is empty) — a plain
+subscription to <code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> records a heartbeat timestamp
+per robot; a periodic timer adds a watcher for any newly-heard-from
+robot and drops one whose heartbeat has gone stale for longer than
+<code class="docutils literal notranslate"><span class="pre">robots.staleness_sec</span></code>. No extra <code class="docutils literal notranslate"><span class="pre">rclcpp::Node</span></code>, executor, or thread
+is created for this — a deliberate constraint on this package: <strong>one
+node, one executor</strong>, everything driven by plain subscription callbacks
+and timers on that same node.</p></li>
+</ul>
+</section>
+<section id="conflict-detection-and-pause-resume">
+<span id="design-conflict-detection"></span><h2><a class="toc-backref" href="#id6" role="doc-backlink">Conflict detection and pause/resume</a><a class="headerlink" href="#conflict-detection-and-pause-resume" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> continuously watches every tracked robot’s
+currently planned path (one lightweight watcher per robot, all sharing the
+same node) and, on a timer, checks every pair of robots for an imminent
+path conflict:</p>
+<ul class="simple">
+<li><p>Two robots’ <em>current positions</em> must be within
+<code class="docutils literal notranslate"><span class="pre">conflict.proximity_radius_m</span></code> of each other — a coarse, cheap
+pre-filter.</p></li>
+<li><p>Their lookahead path segments (the next <code class="docutils literal notranslate"><span class="pre">conflict.lookahead_distance_m</span></code>
+of each robot’s plan) must come within
+<code class="docutils literal notranslate"><span class="pre">conflict.path_conflict_distance_m</span></code> of each other at some point.</p></li>
+</ul>
+<p>When both hold, the robot with the <strong>longer remaining path</strong> to its own
+goal is paused — the one closer to finishing continues, clearing the
+conflict zone sooner. Pausing/resuming is done over EasyNav’s own
+<code class="docutils literal notranslate"><span class="pre">GoalManager</span></code> control protocol, the same mechanism a capability uses to
+pause/resume a single robot’s own navigation.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>A robot that’s <strong>already paused</strong> because of a conflict keeps yielding
+regardless of how the remaining-path-length comparison changes tick to
+tick — without this rule, a stationary robot’s remaining path can
+become numerically shorter than the moving robot’s, causing the two to
+flip which one yields back and forth. Once the conflict monitor decides
+who stops, that decision holds until the conflict genuinely clears.</p>
+</div>
+<p>Every conflict-check tick logs, at <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> level, why each nearby pair
+either is or isn’t considered a risk — including explicitly noting when
+one side of a pair is already paused and yielding — so the monitor’s
+decisions are auditable live (<code class="docutils literal notranslate"><span class="pre">--ros-args</span> <span class="pre">--log-level</span>
+<span class="pre">navigation_manager_node:=debug</span></code>). Pause/resume actions themselves are
+logged at <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, visible by default.</p>
+</section>
+<section id="key-parameters">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Key parameters</a><a class="headerlink" href="#key-parameters" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">map_type</span></code></p></td>
+<td><p>Which <code class="docutils literal notranslate"><span class="pre">MapPublisherBase</span></code> implementation to use. Only
+<code class="docutils literal notranslate"><span class="pre">&quot;costmap&quot;</span></code> exists today.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">map.package</span></code> / <code class="docutils literal notranslate"><span class="pre">map.map_path_file</span></code></p></td>
+<td><p>Where to load the fleet-wide map from.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">routes.package</span></code> / <code class="docutils literal notranslate"><span class="pre">routes.map_path_file</span></code></p></td>
+<td><p>Where to load the fleet-wide route graph from (and where live edits
+are saved back to).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">routes.markers_republish_rate_hz</span></code></p></td>
+<td><p>How often the visualization <code class="docutils literal notranslate"><span class="pre">MarkerArray</span></code> is re-published (see
+the note above). Default 1 Hz.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">robots.static_list</span></code></p></td>
+<td><p>Fixed robot namespace list. Empty (the default) enables dynamic
+tracking instead.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">robots.staleness_sec</span></code> / <code class="docutils literal notranslate"><span class="pre">robots.rescan_rate_hz</span></code></p></td>
+<td><p>Dynamic-tracking-only: how long without a heartbeat before a robot
+is dropped, and how often that check runs.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">robots.planner_plugin_key</span></code></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">planner_types</span></code> entry name each robot’s <code class="docutils literal notranslate"><span class="pre">PlannerNode</span></code> is
+configured with — determines which per-robot path topic to watch.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">conflict.check_rate_hz</span></code></p></td>
+<td><p>How often the conflict-detection timer runs.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">conflict.lookahead_distance_m</span></code> / <code class="docutils literal notranslate"><span class="pre">conflict.path_conflict_distance_m</span></code> / <code class="docutils literal notranslate"><span class="pre">conflict.proximity_radius_m</span></code></p></td>
+<td><p>See <a class="reference internal" href="#design-conflict-detection"><span class="std std-ref">Conflict detection and pause/resume</span></a> above.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Intelligent Robotics Lab, Universidad Rey Juan Carlos.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+
+
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+<script type="text/javascript" src="../_static/tcs_theme.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+</body>
+</html>

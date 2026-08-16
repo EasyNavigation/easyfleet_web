@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EasyFleet &mdash; EasyFleet 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Build &amp; Install" href="build_install/index.html" />
+
+<link rel="stylesheet" href="_static/tcs_theme.css" type="text/css" />
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: orange" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            EasyFleet
+              <img src="_static/easyfleet_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="build_install/index.html">Build &amp; Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build_install/index.html#supported-platforms">Supported platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_install/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_install/index.html#build-from-source">Build from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="build_install/index.html#workspace-layout">Workspace layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_install/index.html#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_install/index.html#configure-and-build">Configure and build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_install/index.html#source-the-overlay">Source the overlay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_install/index.html#run-tests-optional">Run tests (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="build_install/index.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_install/index.html#uninstall-clean">Uninstall / clean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_install/index.html#next-steps">Next steps</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/index.html#launching-the-deployment">Launching the deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/index.html#poking-at-the-robot-by-hand">Poking at the robot by hand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/index.html#watching-the-fleet-with-the-tui">Watching the fleet with the TUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/index.html#running-just-the-robot">Running just the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/index.html#next-steps">Next steps</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design/index.html">Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design/mission_manager.html">Mission Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="design/mission_manager.html#the-core-types">The core types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="design/navigation_manager.html">Navigation Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#why-a-fleet-wide-process-at-all">Why a fleet-wide process at all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#fleet-wide-map-and-routes">Fleet-wide map and routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#live-editable-routes">Live-editable routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#tying-the-frames-together">Tying the frames together</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="design/navigation_manager.html#key-parameters">Key parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="design/index.html#what-s-a-capability">What’s a “capability”?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/index.html#interfaces">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/index.html#the-mission-control-side">The mission-control side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/index.html#robot-vs-mission-control">Robot vs. mission control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#alone-one-robot-three-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">alone</span></code>: one robot, three mocked capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide/index.html">Developer Info</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide/index.html#api-reference-doxygen">API reference (Doxygen)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide/index.html#repository-layout">Repository layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide/index.html#building-and-testing">Building and testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide/index.html#extending-easyfleet">Extending EasyFleet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide/index.html#adding-a-capability-backend">Adding a capability backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide/index.html#writing-your-own-mission-controller">Writing your own mission controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide/index.html#adding-a-fleet-wide-map-representation">Adding a fleet-wide map representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide/index.html#known-limitations">Known limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide/index.html#getting-help-contributing">Getting help / contributing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html">About and Contact</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about/index.html#id1">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about/index.html#contact">Contact</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: orange" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">EasyFleet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+
+<span style="float: right;" >
+    <a class="github-button" href="https://github.com/EasyNavigation/EasyNavigation.github.io" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" aria-label="Edit IntelligentRoboticsLabs/EasyNav.github.io on GitHub" ">Edit</a>
+</span>
+
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">EasyFleet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lpn">
+<span id="documentation-home"></span><h1>EasyFleet<a class="headerlink" href="#lpn" title="Permalink to this heading"></a></h1>
+<h1 align="center">
+  <div>
+    <div style="position: relative; padding-bottom: 0%; overflow: hidden; max-width: 100%; height: auto;">
+      <iframe width="675" height="380" src="https://www.youtube.com/embed/t3FxOrQwgKc?autoplay=1&mute=1" frameborder="1" allowfullscreen style="max-width: 100%;"></iframe>
+    </div>
+  </div>
+</h1><section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p><strong>EasyFleet</strong> is an open-source, ROS 2 framework for orchestrating <strong>fleets of
+multi-skill robots</strong>, designed to be:</p>
+<ul class="simple">
+<li><p>✅ <strong>Capability-oriented</strong>, not stack-specific: any robot skill — navigation,
+manipulation, perception, or a custom one — is exposed the same way, as a
+self-describing, lifecycle-managed ROS 2 action, regardless of which
+backend actually implements it.</p></li>
+<li><p>🧩 <strong>Backend-agnostic</strong>, through a small set of base classes any
+integrator subclasses once: EasyFleet ships a real
+<a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>-backed navigation
+capability out of the box, but nothing in the architecture assumes EasyNav,
+Nav2, MoveIt, or any other specific stack.</p></li>
+<li><p>🐝 <strong>Fleet-aware from the ground up</strong>: robots announce their own identity
+and capabilities at runtime from their ROS namespace, so a mission
+controller can discover, call, and monitor any number of robots without
+hardcoding who they are.</p></li>
+<li><p>🗺️ <strong>Centrally coordinated when it helps</strong>: the Navigation Manager
+publishes one shared map and route graph for the whole fleet and watches
+every robot’s planned path to prevent collisions between robots sharing
+the same space — without requiring every robot to re-implement that logic
+itself.</p></li>
+<li><p>🚀 <strong>Lightweight and simple to deploy</strong>, using plain ROS 2 nodes, actions,
+and parameter files — no external orchestration framework required.</p></li>
+</ul>
+<p>EasyFleet is developed by the <a class="reference external" href="https://intelligentroboticslab.gsyc.urjc.es/">Intelligent Robotics Lab</a>
+at Universidad Rey Juan Carlos, as the fleet-coordination layer that sits on
+top of a per-robot navigation stack such as <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation (EasyNav)</a>.</p>
+<p>It is structured around:</p>
+<ul class="simple">
+<li><p><strong>`easyfleet_core`</strong>, a small C++ framework for building self-describing,
+lifecycle-managed ROS 2 actions (“capabilities”) and their client-side
+counterparts.</p></li>
+<li><p>The <strong>Mission Manager</strong>, reusable building blocks for discovering active
+capabilities across a fleet and driving them from a mission script or a
+Behavior Tree.</p></li>
+<li><p>The <strong>Navigation Manager</strong>, a fleet-wide process that publishes a shared
+map and route graph, and continuously watches every robot’s planned path
+to pause/resume robots on imminent conflicts.</p></li>
+<li><p><strong>Example deployments</strong>, self-contained scenarios (mock capabilities,
+single- and multi-robot real EasyNav navigation) that double as
+integration tests for the whole architecture.</p></li>
+</ul>
+<p>Whether you are prototyping a single robot with a handful of mocked
+capabilities or coordinating several robots sharing the same navigable
+space, EasyFleet provides the plumbing to discover, call, and monitor them
+uniformly.</p>
+<p>We invite you to explore, use, and contribute to this project!</p>
+<p>📚 Learn more about the team behind the project in <a class="reference internal" href="about/index.html#about"><span class="std std-ref">About and Contact</span></a>.</p>
+<p>📦 Source code: <a class="reference external" href="https://github.com/EasyNavigation/EasyFleet">github.com/EasyNavigation/EasyFleet</a></p>
+<p>📢 Want to contribute? Feel free to open an issue, suggest a feature, or submit a pull request!</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Intelligent Robotics Lab, Universidad Rey Juan Carlos.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+
+
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+<script type="text/javascript" src="_static/tcs_theme.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+</body>
+</html>

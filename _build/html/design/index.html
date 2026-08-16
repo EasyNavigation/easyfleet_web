@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design &mdash; EasyFleet 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mission Manager" href="mission_manager.html" />
+    <link rel="prev" title="Getting Started" href="../getting_started/index.html" />
+
+<link rel="stylesheet" href="../_static/tcs_theme.css" type="text/css" />
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: orange" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EasyFleet
+              <img src="../_static/easyfleet_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../build_install/index.html">Build &amp; Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#supported-platforms">Supported platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#run-tests-optional">Run tests (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#uninstall-clean">Uninstall / clean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#next-steps">Next steps</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#launching-the-deployment">Launching the deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#poking-at-the-robot-by-hand">Poking at the robot by hand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#watching-the-fleet-with-the-tui">Watching the fleet with the TUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#running-just-the-robot">Running just the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#next-steps">Next steps</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mission_manager.html">Mission Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#the-core-types">The core types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="navigation_manager.html">Navigation Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#why-a-fleet-wide-process-at-all">Why a fleet-wide process at all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#fleet-wide-map-and-routes">Fleet-wide map and routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#live-editable-routes">Live-editable routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#tying-the-frames-together">Tying the frames together</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#key-parameters">Key parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-a-capability">What’s a “capability”?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interfaces">Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-mission-control-side">The mission-control side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#robot-vs-mission-control">Robot vs. mission control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#alone-one-robot-three-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">alone</span></code>: one robot, three mocked capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide/index.html">Developer Info</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#api-reference-doxygen">API reference (Doxygen)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#repository-layout">Repository layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#building-and-testing">Building and testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#extending-easyfleet">Extending EasyFleet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/index.html#adding-a-capability-backend">Adding a capability backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/index.html#writing-your-own-mission-controller">Writing your own mission controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/index.html#adding-a-fleet-wide-map-representation">Adding a fleet-wide map representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#known-limitations">Known limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/index.html#getting-help-contributing">Getting help / contributing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">About and Contact</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../about/index.html#id1">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about/index.html#contact">Contact</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: orange" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EasyFleet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+
+<span style="float: right;" >
+    <a class="github-button" href="https://github.com/EasyNavigation/EasyNavigation.github.io" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" aria-label="Edit IntelligentRoboticsLabs/EasyNav.github.io on GitHub" ">Edit</a>
+</span>
+
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Design</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="design">
+<span id="id1"></span><h1>Design<a class="headerlink" href="#design" title="Permalink to this heading"></a></h1>
+<p>This section describes <strong>EasyFleet’s architecture</strong>: how a robot’s
+capabilities are structured and hosted, how a mission-control process
+discovers and drives them, and how the Navigation Manager coordinates
+several robots sharing the same space.</p>
+<nav class="contents local" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#what-s-a-capability" id="id2">What’s a “capability”?</a></p></li>
+<li><p><a class="reference internal" href="#interfaces" id="id3">Interfaces</a></p></li>
+<li><p><a class="reference internal" href="#the-robot-side-deployment-and-capabilityfactory" id="id4">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></p></li>
+<li><p><a class="reference internal" href="#the-mission-control-side" id="id5">The mission-control side</a></p></li>
+<li><p><a class="reference internal" href="#robot-vs-mission-control" id="id6">Robot vs. mission control</a></p></li>
+</ul>
+</nav>
+<div class="toctree-wrapper compound">
+</div>
+<section id="what-s-a-capability">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">What’s a “capability”?</a><a class="headerlink" href="#what-s-a-capability" title="Permalink to this heading"></a></h2>
+<p>A <strong>capability</strong> is the atomic unit EasyFleet builds everything around: one
+<code class="docutils literal notranslate"><span class="pre">rclcpp_lifecycle::LifecycleNode</span></code> (<code class="docutils literal notranslate"><span class="pre">easyfleet_core::Capability&lt;ActionServerT&gt;</span></code>)
+wrapping exactly one ROS 2 action. Once activated, it:</p>
+<ul class="simple">
+<li><p>Publishes an <code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces/CapabilityDescription</span></code> on the
+<strong>reliable, transient-local</strong> <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code> topic — so anyone
+subscribing late still gets it. It carries <code class="docutils literal notranslate"><span class="pre">robot</span></code>, <code class="docutils literal notranslate"><span class="pre">capability</span></code> and
+<code class="docutils literal notranslate"><span class="pre">action_name</span></code> (all resolved from the node’s actual ROS namespace at
+runtime, not configured by hand) and a raw JSON description (what it
+does, its requirements, effects, parameters).</p></li>
+<li><p>Publishes a 1 Hz <code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces/CapabilityStatus</span></code> heartbeat on
+<code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> for as long as it stays active — how a mission
+controller knows a capability is not just registered but actually
+<em>alive</em>, and whether it currently has a goal executing (<code class="docutils literal notranslate"><span class="pre">busy</span></code>) or is
+free to be called, without sending it a goal just to find out.</p></li>
+<li><p>Exposes an <code class="docutils literal notranslate"><span class="pre">allow_preemption</span></code> parameter controlling whether a new goal
+can replace one that’s currently running, or must be rejected until the
+current one finishes or is canceled.</p></li>
+<li><p>Can always be told to stop early — canceling the goal stops whatever the
+capability was doing: the robot stops moving, the perception stream
+stops reporting, the manipulator stops executing its trajectory.</p></li>
+</ul>
+<p>Because a capability resolves its own identity from its ROS namespace,
+the exact same binary announces itself correctly whether it’s launched as
+<code class="docutils literal notranslate"><span class="pre">/robot_1/navigation</span></code> or <code class="docutils literal notranslate"><span class="pre">/robot_2/navigation</span></code> — nothing about a
+capability’s own code needs to know which robot it’s running on.</p>
+<div class="graphviz"><img src="../_images/graphviz-0c9ce28c97e4db00569b9005d6f05977d970b63e.png" alt="digraph capability {
+  rankdir=LR;
+  node [shape=box, style=rounded, fontname=&quot;verdana&quot;];
+  &quot;Mission control\n(CapabilityClient)&quot; -&gt; &quot;Capability&lt;ActionServerT&gt;\n(one ROS 2 action)&quot; [label=&quot;goal&quot;];
+  &quot;Capability&lt;ActionServerT&gt;\n(one ROS 2 action)&quot; -&gt; &quot;Mission control\n(CapabilityClient)&quot; [label=&quot;feedback / result&quot;];
+  &quot;Capability&lt;ActionServerT&gt;\n(one ROS 2 action)&quot; -&gt; &quot;/capabilities\n(transient-local)&quot; [style=dashed];
+  &quot;Capability&lt;ActionServerT&gt;\n(one ROS 2 action)&quot; -&gt; &quot;/capabilities_status\n(1 Hz heartbeat)&quot; [style=dashed];
+}" class="graphviz" /></div>
+<p>Any integrator adds a new backend for a capability domain by subclassing
+one of <code class="docutils literal notranslate"><span class="pre">easyfleet_core</span></code>’s three domain base classes
+(<code class="docutils literal notranslate"><span class="pre">NavigationActionServerBase</span></code>, <code class="docutils literal notranslate"><span class="pre">ManipulationActionServerBase</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PerceptionActionServerBase</span></code>) and implementing <code class="docutils literal notranslate"><span class="pre">on_goal_received()</span></code>/
+<code class="docutils literal notranslate"><span class="pre">on_execute()</span></code> — everything else (announcing itself, the heartbeat,
+preemption bookkeeping, cancellation) is handled by <code class="docutils literal notranslate"><span class="pre">Capability&lt;T&gt;</span></code> and
+needs no changes. EasyFleet ships one real backend this way, on top of
+<a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>’s navigation stack
+— see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>.</p>
+</section>
+<section id="interfaces">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Interfaces</a><a class="headerlink" href="#interfaces" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code> defines three actions general enough that any
+robot’s implementation of a capability — any navigation stack, any
+manipulator, any perception modality — can express itself through the same
+interface, with a <code class="docutils literal notranslate"><span class="pre">parameters_json</span></code> escape hatch for stack-specific
+tuning:</p>
+<ul class="simple">
+<li><p><strong>Navigation</strong>: go to <code class="docutils literal notranslate"><span class="pre">target_pose</span></code>, optionally via ordered
+<code class="docutils literal notranslate"><span class="pre">waypoints</span></code>.</p></li>
+<li><p><strong>Manipulation</strong>: reach a <code class="docutils literal notranslate"><span class="pre">joint_target</span></code>, a <code class="docutils literal notranslate"><span class="pre">pose_target</span></code>, or run a
+<code class="docutils literal notranslate"><span class="pre">named_task</span></code>, selected by <code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p></li>
+<li><p><strong>Perception</strong>: detect/report <code class="docutils literal notranslate"><span class="pre">object_classes</span></code>, once or
+<code class="docutils literal notranslate"><span class="pre">continuous</span></code>ly.</p></li>
+</ul>
+<p>All three share a result-code convention (<code class="docutils literal notranslate"><span class="pre">SUCCESS=0</span></code>, <code class="docutils literal notranslate"><span class="pre">REJECTED=1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ABORTED=2</span></code>, <code class="docutils literal notranslate"><span class="pre">CANCELED=3</span></code>, <code class="docutils literal notranslate"><span class="pre">TIMEOUT=4</span></code>, with capability-specific
+codes starting at <code class="docutils literal notranslate"><span class="pre">10</span></code>) — documented, not enforced by the type system,
+since <code class="docutils literal notranslate"><span class="pre">.action</span></code> files can’t share constants across packages.</p>
+</section>
+<section id="the-robot-side-deployment-and-capabilityfactory">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><a class="headerlink" href="#the-robot-side-deployment-and-capabilityfactory" title="Permalink to this heading"></a></h2>
+<p>One process per robot, one <code class="docutils literal notranslate"><span class="pre">easyfleet_core::Deployment</span></code> per process —
+matching reality: a real fleet’s robots each have their own onboard
+computer, so a deployment abstraction spanning several robots in one
+process would be modeling something that doesn’t exist outside a
+single-machine simulation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Deployment</span></code> replaces the configure → check → activate → check → spin →
+deactivate → cleanup → shutdown dance every robot process would otherwise
+repeat by hand, plus the “which concrete class does the string
+<code class="docutils literal notranslate"><span class="pre">'navigation'</span></code> mean” lookup: <code class="docutils literal notranslate"><span class="pre">add_capability(name)</span></code> loads a
+pluginlib-registered <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code> for that name and constructs the
+matching capability. A concrete backend becomes pluginlib-loadable with one
+<code class="docutils literal notranslate"><span class="pre">PLUGINLIB_EXPORT_CLASS</span></code> line, no boilerplate factory class of its own to
+write (<code class="docutils literal notranslate"><span class="pre">CapabilityFactoryFor&lt;YourActionServerT&gt;</span></code> covers every case). The
+robot’s identity comes entirely from the ROS namespace the process itself
+was launched under — <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> needs no namespace of its own.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">easyfleet</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+
+<span class="n">easyfleet</span><span class="o">::</span><span class="n">Deployment</span><span class="w"> </span><span class="n">deployment</span><span class="p">;</span>
+<span class="n">deployment</span><span class="p">.</span><span class="n">add_capabilities_from_parameters</span><span class="p">(</span><span class="s">&quot;my_deployment_package&quot;</span><span class="p">);</span>
+
+<span class="n">deployment</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
+<span class="n">deployment</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+<span class="n">deployment</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="the-mission-control-side">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">The mission-control side</a><a class="headerlink" href="#the-mission-control-side" title="Permalink to this heading"></a></h2>
+<p>A separate process discovers a fleet’s capabilities and drives them —
+never linked against any capability’s implementation, only against
+<code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code>’ action types. See <a class="reference internal" href="mission_manager.html"><span class="doc">Mission Manager</span></a> for
+<code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>/<code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>, the client-side API
+built for this.</p>
+</section>
+<section id="robot-vs-mission-control">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Robot vs. mission control</a><a class="headerlink" href="#robot-vs-mission-control" title="Permalink to this heading"></a></h2>
+<p>Every EasyFleet deployment is split into two kinds of process that never
+link against each other’s implementation, only ever talk over ROS
+actions/topics:</p>
+<div class="graphviz"><img src="../_images/graphviz-c05b6cc7ffc1b7403c389615eacb47d04dac033d.png" alt="digraph split {
+  rankdir=LR;
+  node [shape=box, style=rounded, fontname=&quot;verdana&quot;];
+  subgraph cluster_robot1 {
+    label=&quot;robot_1 process&quot;;
+    style=dashed;
+    &quot;Deployment (robot_1)&quot; -&gt; &quot;navigation&quot; -&gt; &quot;perception&quot;;
+  }
+  subgraph cluster_robot2 {
+    label=&quot;robot_2 process&quot;;
+    style=dashed;
+    &quot;Deployment (robot_2)&quot; -&gt; &quot;navigation (robot_2)&quot; -&gt; &quot;manipulation&quot;;
+  }
+  &quot;Mission control\n(FleetSession)&quot; -&gt; &quot;navigation&quot; [label=&quot;/capabilities,\n/capabilities_status,\nactions&quot;];
+  &quot;Mission control\n(FleetSession)&quot; -&gt; &quot;navigation (robot_2)&quot;;
+  &quot;Navigation Manager&quot; -&gt; &quot;navigation&quot; [label=&quot;/global_map,\n/global_routes,\npause/resume&quot;];
+  &quot;Navigation Manager&quot; -&gt; &quot;navigation (robot_2)&quot;;
+}" class="graphviz" /></div>
+<p>This split is what makes discovery meaningful in the first place: a
+mission-control process has no compile-time knowledge of what robots exist
+or which capabilities they carry — it finds out by listening on
+<code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>/<code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code>, the same way any other
+operator or control-computer program would.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Intelligent Robotics Lab, Universidad Rey Juan Carlos.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+
+
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+<script type="text/javascript" src="../_static/tcs_theme.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+</body>
+</html>
