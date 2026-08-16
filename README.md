@@ -1,4 +1,4 @@
-# easyflee web
+# EasyFleet web
 
 This folder holds the source and configuration files used to generate the
 [EasyFleet documentation](https://github.com/EasyNavigation/EasyFleet) web site.
