@@ -10,6 +10,15 @@ gives every robot's own `EasyNavigation <https://easynavigation.github.io/>`_
 instance a single, shared view of the map and the route graph, and watches
 every robot's planned path to prevent them from colliding with each other.
 
+.. note::
+   This package is the one place in EasyFleet that currently assumes
+   EasyNav specifically — the ``Navigation`` action itself is framework-
+   agnostic (see :doc:`index`), but the fleet-wide map/routes plumbing and
+   the pause/resume protocol below both talk to EasyNav's own
+   ``maps_manager_node``/``GoalManager`` directly. Isolating that
+   dependency behind an interface a `Nav2 <https://navigation.ros.org/>`_-backed
+   fleet could also implement is planned, not done yet.
+
 .. contents:: On this page
    :local:
    :depth: 2

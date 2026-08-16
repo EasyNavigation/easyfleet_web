@@ -179,6 +179,10 @@
 process (a hand-written script today; eventually an LLM-driven Behavior
 Tree, or a PDDL planner) uses to discover a fleet’s capabilities and drive
 them — without ever linking against any capability’s own implementation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager_py</span></code> is a 1:1 Python port of the same three
+types (<code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>, <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>, <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>), talking
+the exact same wire protocol — everything on this page applies to both;
+code samples are shown in both languages.</p>
 <nav class="contents local" id="on-this-page">
 <p class="topic-title">On this page</p>
 <ul class="simple">
@@ -243,11 +247,39 @@ see <a class="reference internal" href="#design-extending-controllers"><span cla
 <span class="n">controller</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">run_capability&lt;ActionT&gt;()</span></code> sends a goal and returns immediately — the
+<p>The same script in Python, against <code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager_py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">controller</span> <span class="o">=</span> <span class="n">SimpleController</span><span class="p">()</span>
+
+<span class="n">robot_1</span> <span class="o">=</span> <span class="n">RobotHandle</span><span class="p">(</span><span class="s2">&quot;robot_1&quot;</span><span class="p">)</span>
+<span class="n">controller</span><span class="o">.</span><span class="n">add_robot</span><span class="p">(</span><span class="n">robot_1</span><span class="p">)</span>
+<span class="n">controller</span><span class="o">.</span><span class="n">discover_capabilities</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">robot_1</span><span class="o">.</span><span class="n">has_capability</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="n">robot_1</span><span class="o">.</span><span class="n">run_capability</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">,</span> <span class="n">Navigation</span><span class="p">,</span> <span class="n">make_navigation_goal</span><span class="p">(</span><span class="s2">&quot;kitchen&quot;</span><span class="p">))</span>
+
+<span class="k">while</span> <span class="n">robot_1</span><span class="o">.</span><span class="n">is_capability_running</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">):</span>
+    <span class="n">controller</span><span class="o">.</span><span class="n">spin_some</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">robot_1</span><span class="o">.</span><span class="n">capability_state</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">CapabilityState</span><span class="o">.</span><span class="n">SUCCEEDED</span><span class="p">:</span>
+    <span class="o">...</span>
+
+<span class="n">controller</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">run_capability()</span></code> sends a goal and returns immediately — the
 non-blocking counterpart to a raw action client call — and automatically
 publishes a status marker above the robot in RViz, kept up to date until
 the goal settles or is stopped, so a mission script never has to remember
-to do that itself.</p>
+to do that itself. The only real difference between the two languages:
+C++’s <code class="docutils literal notranslate"><span class="pre">run_capability&lt;ActionT&gt;()</span></code> takes the action type as a template
+parameter (fixing, at compile time, which <code class="docutils literal notranslate"><span class="pre">ActionT</span></code> a given
+<code class="docutils literal notranslate"><span class="pre">capability_type</span></code> means for the life of the handle); Python’s
+<code class="docutils literal notranslate"><span class="pre">run_capability()</span></code> takes the same action module as a plain third
+argument instead (<code class="docutils literal notranslate"><span class="pre">Navigation</span></code>, <code class="docutils literal notranslate"><span class="pre">Manipulation</span></code>, <code class="docutils literal notranslate"><span class="pre">Perception</span></code>, or one
+of your own), checked at first use rather than at compile time.</p>
 </section>
 <section id="capabilitystate-richer-than-running-not-running">
 <h2><a class="toc-backref" href="#id3" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a><a class="headerlink" href="#capabilitystate-richer-than-running-not-running" title="Permalink to this heading"></a></h2>

@@ -180,6 +180,16 @@ robot and mission control: <strong>one process per fleet</strong>, not per robot
 gives every robot’s own <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>
 instance a single, shared view of the map and the route graph, and watches
 every robot’s planned path to prevent them from colliding with each other.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This package is the one place in EasyFleet that currently assumes
+EasyNav specifically — the <code class="docutils literal notranslate"><span class="pre">Navigation</span></code> action itself is framework-
+agnostic (see <a class="reference internal" href="index.html"><span class="doc">Design</span></a>), but the fleet-wide map/routes plumbing and
+the pause/resume protocol below both talk to EasyNav’s own
+<code class="docutils literal notranslate"><span class="pre">maps_manager_node</span></code>/<code class="docutils literal notranslate"><span class="pre">GoalManager</span></code> directly. Isolating that
+dependency behind an interface a <a class="reference external" href="https://navigation.ros.org/">Nav2</a>-backed
+fleet could also implement is planned, not done yet.</p>
+</div>
 <nav class="contents local" id="on-this-page">
 <p class="topic-title">On this page</p>
 <ul class="simple">

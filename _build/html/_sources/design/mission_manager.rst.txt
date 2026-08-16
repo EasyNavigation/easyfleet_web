@@ -9,6 +9,11 @@ process (a hand-written script today; eventually an LLM-driven Behavior
 Tree, or a PDDL planner) uses to discover a fleet's capabilities and drive
 them — without ever linking against any capability's own implementation.
 
+``easyfleet_mission_manager_py`` is a 1:1 Python port of the same three
+types (``FleetSession``, ``RobotHandle``, ``SimpleController``), talking
+the exact same wire protocol — everything on this page applies to both;
+code samples are shown in both languages.
+
 .. contents:: On this page
    :local:
    :depth: 2
@@ -70,11 +75,41 @@ A minimal mission script
 
    controller.shutdown();
 
-``run_capability<ActionT>()`` sends a goal and returns immediately — the
+The same script in Python, against ``easyfleet_mission_manager_py``:
+
+.. code-block:: python
+
+   rclpy.init()
+   controller = SimpleController()
+
+   robot_1 = RobotHandle("robot_1")
+   controller.add_robot(robot_1)
+   controller.discover_capabilities()
+
+   if not robot_1.has_capability("navigation"):
+       ...
+
+   robot_1.run_capability("navigation", Navigation, make_navigation_goal("kitchen"))
+
+   while robot_1.is_capability_running("navigation"):
+       controller.spin_some()
+
+   if robot_1.capability_state("navigation") == CapabilityState.SUCCEEDED:
+       ...
+
+   controller.shutdown()
+
+``run_capability()`` sends a goal and returns immediately — the
 non-blocking counterpart to a raw action client call — and automatically
 publishes a status marker above the robot in RViz, kept up to date until
 the goal settles or is stopped, so a mission script never has to remember
-to do that itself.
+to do that itself. The only real difference between the two languages:
+C++'s ``run_capability<ActionT>()`` takes the action type as a template
+parameter (fixing, at compile time, which ``ActionT`` a given
+``capability_type`` means for the life of the handle); Python's
+``run_capability()`` takes the same action module as a plain third
+argument instead (``Navigation``, ``Manipulation``, ``Perception``, or one
+of your own), checked at first use rather than at compile time.
 
 ``CapabilityState``: richer than running/not-running
 =======================================================

@@ -51,9 +51,11 @@ It is structured around:
 - **`easyfleet_core`**, a small C++ framework for building self-describing,
   lifecycle-managed ROS 2 actions ("capabilities") and their client-side
   counterparts.
-- The **Mission Manager**, reusable building blocks for discovering active
-  capabilities across a fleet and driving them from a mission script or a
-  Behavior Tree.
+- The **Mission Manager**, reusable building blocks — in **C++ or
+  Python**, your choice, both speaking the same wire protocol — for
+  discovering active capabilities across a fleet and driving them from a
+  mission script, an LLM-driven controller, a PDDL planner, or a Behavior
+  Tree.
 - The **Navigation Manager**, a fleet-wide process that publishes a shared
   map and route graph, and continuously watches every robot's planned path
   to pause/resume robots on imminent conflicts.

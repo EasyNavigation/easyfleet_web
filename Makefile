@@ -39,7 +39,7 @@ clean:
 
 publish:
 	rm -rf $(PUBLISHDIR)
-	git clone --reference . https://github.com/EasyFleet/easyfleet.github.io.git $(PUBLISHDIR)
+	git clone --reference . https://github.com/EasyNavigation/easyfleet.github.io.git $(PUBLISHDIR)
 	cd $(PUBLISHDIR) && \
 	git checkout gh-pages && \
 	rm -fr $(PUBLISHDIR)/*
