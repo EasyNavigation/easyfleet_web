@@ -235,6 +235,19 @@ preemption bookkeeping, cancellation) is handled by <code class="docutils litera
 needs no changes. EasyFleet ships one real backend this way, on top of
 <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>’s navigation stack
 — see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">NavigationActionServerBase</span></code>/<code class="docutils literal notranslate"><span class="pre">ManipulationActionServerBase</span></code>/
+<code class="docutils literal notranslate"><span class="pre">PerceptionActionServerBase</span></code> are convenience subclasses for the three
+domains <code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code> ships today — not a hard limit on what
+a capability can be. <code class="docutils literal notranslate"><span class="pre">Capability&lt;ActionServerT&gt;</span></code>/
+<code class="docutils literal notranslate"><span class="pre">ActionServerBase&lt;ActionT&gt;</span></code> are templated on <strong>any</strong> ROS 2 action
+type: a brand-new capability domain (say, <code class="docutils literal notranslate"><span class="pre">Inspection</span></code> or
+<code class="docutils literal notranslate"><span class="pre">Charging</span></code>) is your own <code class="docutils literal notranslate"><span class="pre">.action</span></code> file plus a direct
+<code class="docutils literal notranslate"><span class="pre">ActionServerBase&lt;YourActionT&gt;</span></code> subclass — announcing itself on
+<code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>, the heartbeat, preemption bookkeeping, and discovery
+all keep working unchanged, with no framework code to modify.</p>
+</div>
 </section>
 <section id="interfaces">
 <h2><a class="toc-backref" href="#id3" role="doc-backlink">Interfaces</a><a class="headerlink" href="#interfaces" title="Permalink to this heading"></a></h2>
@@ -255,6 +268,20 @@ tuning:</p>
 <code class="docutils literal notranslate"><span class="pre">ABORTED=2</span></code>, <code class="docutils literal notranslate"><span class="pre">CANCELED=3</span></code>, <code class="docutils literal notranslate"><span class="pre">TIMEOUT=4</span></code>, with capability-specific
 codes starting at <code class="docutils literal notranslate"><span class="pre">10</span></code>) — documented, not enforced by the type system,
 since <code class="docutils literal notranslate"><span class="pre">.action</span></code> files can’t share constants across packages.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because <code class="docutils literal notranslate"><span class="pre">Navigation</span></code> is a plain, generic ROS 2 action — not
+<code class="docutils literal notranslate"><span class="pre">nav2_msgs/action/NavigateToPose</span></code>, not anything Nav2-specific —
+EasyFleet itself is <strong>navigation-stack-agnostic</strong>: a
+<code class="docutils literal notranslate"><span class="pre">NavigationActionServerBase</span></code> subclass could just as well wrap
+<a class="reference external" href="https://navigation.ros.org/">Nav2</a>, a custom driver, or any other
+stack — EasyNav is simply the one backend this project ships today
+(see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>). <code class="docutils literal notranslate"><span class="pre">easyfleet_navigation_manager</span></code> (see
+<a class="reference internal" href="navigation_manager.html"><span class="doc">Navigation Manager</span></a>) is currently the one place that assumes
+EasyNav specifically, for the fleet-wide map/routes/pause-resume
+plumbing — isolating that coupling so a Nav2-backed fleet could use it
+too is planned, not done yet.</p>
+</div>
 </section>
 <section id="the-robot-side-deployment-and-capabilityfactory">
 <h2><a class="toc-backref" href="#id4" role="doc-backlink">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><a class="headerlink" href="#the-robot-side-deployment-and-capabilityfactory" title="Permalink to this heading"></a></h2>
@@ -288,9 +315,67 @@ was launched under — <code class="docutils literal notranslate"><span class="p
 <h2><a class="toc-backref" href="#id5" role="doc-backlink">The mission-control side</a><a class="headerlink" href="#the-mission-control-side" title="Permalink to this heading"></a></h2>
 <p>A separate process discovers a fleet’s capabilities and drives them —
 never linked against any capability’s implementation, only against
-<code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code>’ action types. See <a class="reference internal" href="mission_manager.html"><span class="doc">Mission Manager</span></a> for
-<code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>/<code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>, the client-side API
-built for this.</p>
+<code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code>’ action types. Two client libraries speak the
+exact same wire protocol (<code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>, <code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code>, the
+<code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code> actions), so a controller written against either
+is interchangeable against the same fleet, no matter which one hosted the
+capabilities it talks to:</p>
+<ul class="simple">
+<li><p><strong>C++</strong> — <code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager</span></code>’s <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/
+<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>/<code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>.</p></li>
+<li><p><strong>Python</strong> — <code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager_py</span></code>, a 1:1 port of the same
+three types.</p></li>
+</ul>
+<p>See <a class="reference internal" href="mission_manager.html"><span class="doc">Mission Manager</span></a> for the full API. A minimal controller looks
+like this in either language — this is genuinely all a manual,
+hand-written mission needs:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">easyfleet</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="n">easyfleet</span><span class="o">::</span><span class="n">SimpleController</span><span class="w"> </span><span class="n">controller</span><span class="p">;</span>
+
+<span class="n">easyfleet</span><span class="o">::</span><span class="n">RobotHandle</span><span class="w"> </span><span class="n">robot_1</span><span class="p">(</span><span class="s">&quot;robot_1&quot;</span><span class="p">);</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">add_robot</span><span class="p">(</span><span class="n">robot_1</span><span class="p">);</span>
+<span class="n">controller</span><span class="p">.</span><span class="n">discover_capabilities</span><span class="p">();</span>
+
+<span class="n">robot_1</span><span class="p">.</span><span class="n">run_capability</span><span class="o">&lt;</span><span class="n">easyfleet_mission_manager</span><span class="o">::</span><span class="n">Navigation</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;navigation&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">easyfleet_mission_manager</span><span class="o">::</span><span class="n">make_navigation_goal</span><span class="p">(</span><span class="s">&quot;kitchen&quot;</span><span class="p">));</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">robot_1</span><span class="p">.</span><span class="n">is_capability_running</span><span class="p">(</span><span class="s">&quot;navigation&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">controller</span><span class="p">.</span><span class="n">spin_some</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">controller</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">controller</span> <span class="o">=</span> <span class="n">SimpleController</span><span class="p">()</span>
+
+<span class="n">robot_1</span> <span class="o">=</span> <span class="n">RobotHandle</span><span class="p">(</span><span class="s2">&quot;robot_1&quot;</span><span class="p">)</span>
+<span class="n">controller</span><span class="o">.</span><span class="n">add_robot</span><span class="p">(</span><span class="n">robot_1</span><span class="p">)</span>
+<span class="n">controller</span><span class="o">.</span><span class="n">discover_capabilities</span><span class="p">()</span>
+
+<span class="n">robot_1</span><span class="o">.</span><span class="n">run_capability</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">,</span> <span class="n">Navigation</span><span class="p">,</span> <span class="n">make_navigation_goal</span><span class="p">(</span><span class="s2">&quot;kitchen&quot;</span><span class="p">))</span>
+<span class="k">while</span> <span class="n">robot_1</span><span class="o">.</span><span class="n">is_capability_running</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">):</span>
+    <span class="n">controller</span><span class="o">.</span><span class="n">spin_some</span><span class="p">()</span>
+
+<span class="n">controller</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Both snippets above are what <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code> is: a mission script
+decides everything by hand, in order, with no plumbing beyond “send a
+goal, wait, check the result”. Writing your own <strong>controller</strong> (C++ or
+Python) and your own <strong>deployment</strong> (the robot-side launch/config that
+goes with it) is exactly what most EasyFleet users will actually spend
+their time on — <code class="docutils literal notranslate"><span class="pre">easyfleet_core</span></code>/<code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager</span></code> are
+meant to fade into the background once a fleet is up and running. The
+example mission scripts this project ships (a hand-rolled one and its
+<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>-based sibling, each available in C++ and Python) are
+templates to start from, not the point of the exercise.</p>
+<p>Nothing about <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> assumes a linear script,
+either — see <a class="reference internal" href="mission_manager.html#design-extending-controllers"><span class="std std-ref">Extensibility: building other controllers on FleetSession</span></a> below for building a
+controller with real decision-making on top of the exact same primitives:
+one that asks an <strong>LLM</strong> what to do next from inside its own
+<code class="docutils literal notranslate"><span class="pre">spin_some()</span></code>-driven loop, or one whose <strong>PDDL planner</strong> (PlanSys2, for
+example) action implementations reach into the fleet through
+<code class="docutils literal notranslate"><span class="pre">robots()</span></code>/<code class="docutils literal notranslate"><span class="pre">find_robot()</span></code> instead of a fixed phase-by-phase script.</p>
 </section>
 <section id="robot-vs-mission-control">
 <h2><a class="toc-backref" href="#id6" role="doc-backlink">Robot vs. mission control</a><a class="headerlink" href="#robot-vs-mission-control" title="Permalink to this heading"></a></h2>

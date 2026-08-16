@@ -71,6 +71,18 @@ needs no changes. EasyFleet ships one real backend this way, on top of
 `EasyNavigation <https://easynavigation.github.io/>`_'s navigation stack
 — see :doc:`../examples/index`.
 
+.. note::
+   ``NavigationActionServerBase``/``ManipulationActionServerBase``/
+   ``PerceptionActionServerBase`` are convenience subclasses for the three
+   domains ``easyfleet_interfaces`` ships today — not a hard limit on what
+   a capability can be. ``Capability<ActionServerT>``/
+   ``ActionServerBase<ActionT>`` are templated on **any** ROS 2 action
+   type: a brand-new capability domain (say, ``Inspection`` or
+   ``Charging``) is your own ``.action`` file plus a direct
+   ``ActionServerBase<YourActionT>`` subclass — announcing itself on
+   ``/capabilities``, the heartbeat, preemption bookkeeping, and discovery
+   all keep working unchanged, with no framework code to modify.
+
 Interfaces
 ==========
 
@@ -91,6 +103,19 @@ All three share a result-code convention (``SUCCESS=0``, ``REJECTED=1``,
 ``ABORTED=2``, ``CANCELED=3``, ``TIMEOUT=4``, with capability-specific
 codes starting at ``10``) — documented, not enforced by the type system,
 since ``.action`` files can't share constants across packages.
+
+.. note::
+   Because ``Navigation`` is a plain, generic ROS 2 action — not
+   ``nav2_msgs/action/NavigateToPose``, not anything Nav2-specific —
+   EasyFleet itself is **navigation-stack-agnostic**: a
+   ``NavigationActionServerBase`` subclass could just as well wrap
+   `Nav2 <https://navigation.ros.org/>`_, a custom driver, or any other
+   stack — EasyNav is simply the one backend this project ships today
+   (see :doc:`../examples/index`). ``easyfleet_navigation_manager`` (see
+   :doc:`navigation_manager`) is currently the one place that assumes
+   EasyNav specifically, for the fleet-wide map/routes/pause-resume
+   plumbing — isolating that coupling so a Nav2-backed fleet could use it
+   too is planned, not done yet.
 
 The robot side: ``Deployment`` and ``CapabilityFactory``
 ==========================================================
@@ -128,9 +153,71 @@ The mission-control side
 
 A separate process discovers a fleet's capabilities and drives them —
 never linked against any capability's implementation, only against
-``easyfleet_interfaces``' action types. See :doc:`mission_manager` for
-``FleetSession``/``RobotHandle``/``SimpleController``, the client-side API
-built for this.
+``easyfleet_interfaces``' action types. Two client libraries speak the
+exact same wire protocol (``/capabilities``, ``/capabilities_status``, the
+``easyfleet_interfaces`` actions), so a controller written against either
+is interchangeable against the same fleet, no matter which one hosted the
+capabilities it talks to:
+
+- **C++** — ``easyfleet_mission_manager``'s ``FleetSession``/
+  ``RobotHandle``/``SimpleController``.
+- **Python** — ``easyfleet_mission_manager_py``, a 1:1 port of the same
+  three types.
+
+See :doc:`mission_manager` for the full API. A minimal controller looks
+like this in either language — this is genuinely all a manual,
+hand-written mission needs:
+
+.. code-block:: cpp
+
+   easyfleet::init(argc, argv);
+   easyfleet::SimpleController controller;
+
+   easyfleet::RobotHandle robot_1("robot_1");
+   controller.add_robot(robot_1);
+   controller.discover_capabilities();
+
+   robot_1.run_capability<easyfleet_mission_manager::Navigation>(
+     "navigation", easyfleet_mission_manager::make_navigation_goal("kitchen"));
+   while (robot_1.is_capability_running("navigation")) {
+     controller.spin_some();
+   }
+
+   controller.shutdown();
+
+.. code-block:: python
+
+   rclpy.init()
+   controller = SimpleController()
+
+   robot_1 = RobotHandle("robot_1")
+   controller.add_robot(robot_1)
+   controller.discover_capabilities()
+
+   robot_1.run_capability("navigation", Navigation, make_navigation_goal("kitchen"))
+   while robot_1.is_capability_running("navigation"):
+       controller.spin_some()
+
+   controller.shutdown()
+
+Both snippets above are what ``SimpleController`` is: a mission script
+decides everything by hand, in order, with no plumbing beyond "send a
+goal, wait, check the result". Writing your own **controller** (C++ or
+Python) and your own **deployment** (the robot-side launch/config that
+goes with it) is exactly what most EasyFleet users will actually spend
+their time on — ``easyfleet_core``/``easyfleet_mission_manager`` are
+meant to fade into the background once a fleet is up and running. The
+example mission scripts this project ships (a hand-rolled one and its
+``RobotHandle``-based sibling, each available in C++ and Python) are
+templates to start from, not the point of the exercise.
+
+Nothing about ``FleetSession``/``RobotHandle`` assumes a linear script,
+either — see :ref:`design_extending_controllers` below for building a
+controller with real decision-making on top of the exact same primitives:
+one that asks an **LLM** what to do next from inside its own
+``spin_some()``-driven loop, or one whose **PDDL planner** (PlanSys2, for
+example) action implementations reach into the fleet through
+``robots()``/``find_robot()`` instead of a fixed phase-by-phase script.
 
 Robot vs. mission control
 ==========================

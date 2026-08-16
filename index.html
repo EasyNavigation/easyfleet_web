@@ -213,9 +213,11 @@ top of a per-robot navigation stack such as <a class="reference external" href="
 <li><p><strong>`easyfleet_core`</strong>, a small C++ framework for building self-describing,
 lifecycle-managed ROS 2 actions (“capabilities”) and their client-side
 counterparts.</p></li>
-<li><p>The <strong>Mission Manager</strong>, reusable building blocks for discovering active
-capabilities across a fleet and driving them from a mission script or a
-Behavior Tree.</p></li>
+<li><p>The <strong>Mission Manager</strong>, reusable building blocks — in <strong>C++ or
+Python</strong>, your choice, both speaking the same wire protocol — for
+discovering active capabilities across a fleet and driving them from a
+mission script, an LLM-driven controller, a PDDL planner, or a Behavior
+Tree.</p></li>
 <li><p>The <strong>Navigation Manager</strong>, a fleet-wide process that publishes a shared
 map and route graph, and continuously watches every robot’s planned path
 to pause/resume robots on imminent conflicts.</p></li>

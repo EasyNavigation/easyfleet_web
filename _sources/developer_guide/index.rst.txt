@@ -49,6 +49,9 @@ per supported ROS 2 distro (``rolling`` today):
      - ``FleetSession``, ``RobotHandle``, ``SimpleController``,
        ``CapabilityState`` — the client-side API described in
        :doc:`../design/mission_manager`.
+   * - ``easyfleet_mission_manager_py``
+     - The same API, a 1:1 Python port — for writing a mission controller
+       in Python instead of C++.
    * - ``easyfleet_navigation_manager``
      - ``navigation_manager_node`` — see :doc:`../design/navigation_manager`.
    * - ``easyfleet_easynav_navigation``
@@ -123,8 +126,14 @@ Writing your own mission controller
 --------------------------------------
 
 Own a ``FleetSession`` by composition, the same way ``SimpleController``
-does, and add whatever decision-making logic you need around it — see
-:ref:`design_extending_controllers` in :doc:`../design/mission_manager`.
+does, and add whatever decision-making logic you need around it — in C++
+(``easyfleet_mission_manager``) or Python (``easyfleet_mission_manager_py``),
+your choice; both speak the same wire protocol, so they're interchangeable
+against the same fleet. See :ref:`design_extending_controllers` in
+:doc:`../design/mission_manager` for the pattern, and
+:ref:`design_mission_manager` for a minimal example in both languages.
+This, together with writing your own :doc:`deployment <../examples/index>`,
+is where most integration work with EasyFleet actually happens.
 
 Adding a fleet-wide map representation
 ------------------------------------------
