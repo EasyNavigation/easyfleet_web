@@ -61,7 +61,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../build_install/index.html#core-only">Core only</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
@@ -91,7 +94,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#the-core-types">The core types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#a-minimal-mission-script">A minimal mission script</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discovery">Discovery</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lower-level-actionclient">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
 </ul>
 </li>
@@ -103,11 +109,15 @@
 <li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#key-parameters">Key parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#the-navigate-bt-node">The <code class="docutils literal notranslate"><span class="pre">Navigate</span></code> BT node</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#what-s-a-capability">What’s a “capability”?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#interfaces">Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#writing-a-capability-in-python">Writing a capability in Python</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#the-mission-control-side">The mission-control side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#robot-vs-mission-control">Robot vs. mission control</a></li>
 </ul>
@@ -118,6 +128,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-the-same-scenario-simple-api"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-py-the-same-scenario-in-python"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#zenoh-one-zenoh-island-per-robot"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#fastdds-one-ros-domain-id-per-robot"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#farm-one-summit-outdoors-navmap-gps"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
 </ul>
@@ -189,8 +204,12 @@ code samples are shown in both languages.</p>
 <li><p><a class="reference internal" href="#the-core-types" id="id1">The core types</a></p></li>
 <li><p><a class="reference internal" href="#a-minimal-mission-script" id="id2">A minimal mission script</a></p></li>
 <li><p><a class="reference internal" href="#capabilitystate-richer-than-running-not-running" id="id3"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></p></li>
-<li><p><a class="reference internal" href="#discovery" id="id4">Discovery</a></p></li>
-<li><p><a class="reference internal" href="#extensibility-building-other-controllers-on-fleetsession" id="id5">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></p></li>
+<li><p><a class="reference internal" href="#discovery" id="id4">Discovery</a></p>
+<ul>
+<li><p><a class="reference internal" href="#lower-level-actionclient" id="id5">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#extensibility-building-other-controllers-on-fleetsession" id="id6">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></p></li>
 </ul>
 </nav>
 <section id="the-core-types">
@@ -198,8 +217,8 @@ code samples are shown in both languages.</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></dt><dd><p>Everything talking to a fleet actually needs, regardless of what
 decides <em>when</em> to command which robot: the ROS node and
-background-spinning executor every <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> rides on, one shared
-capability-discovery pass, the registry of added robots, and the
+background-spinning executor every <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> rides on, the live
+capability registry, the registry of added robots, and the
 automatic RViz status markers <code class="docutils literal notranslate"><span class="pre">RobotHandle::run_capability()</span></code>
 publishes. Deliberately has <strong>no notion of “how a mission decides what
 to do next”</strong> — only “how to talk to the robots once something has
@@ -208,11 +227,14 @@ controller flavor to build on (see <a class="reference internal" href="#design-e
 below).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code></dt><dd><p>A remote robot’s capabilities, as seen and commanded from a mission
-script — the client-side counterpart to <code class="docutils literal notranslate"><span class="pre">easyfleet_core::Robot</span></code>,
+script — the client-side counterpart to <code class="docutils literal notranslate"><span class="pre">easyfleet::Deployment</span></code>,
 which <em>hosts</em> real capability nodes. A <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> owns no nodes at
 all: it’s a thin, non-blocking, observable proxy over whatever this
-robot announced on <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>, refreshed by the <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>
-it was added to.</p>
+robot announces on <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>, tracked live by the
+<code class="docutils literal notranslate"><span class="pre">FleetSession</span></code> it was added to. Adding it to a second session throws
+(<code class="docutils literal notranslate"><span class="pre">std::logic_error</span></code>, Python <code class="docutils literal notranslate"><span class="pre">MissionManagerError</span></code>). In C++ it is not
+copyable, and destroying it detaches it from its session, dropping its
+running goals.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">SimpleController</span></code></dt><dd><p>The plain, manual controller: a mission script decides everything by
 hand (which robot runs which capability, when); <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>
@@ -289,49 +311,67 @@ of your own), checked at first use rather than at compile time.</p>
 alone can’t tell a mission script “it finished, and here’s what actually
 happened” apart from “nothing is happening because it crashed”. Every
 terminal value mirrors <code class="docutils literal notranslate"><span class="pre">easyfleet_core::CapabilityClient</span></code>’s own outcome
-one to one:</p>
+one to one (Python <code class="docutils literal notranslate"><span class="pre">CapabilityOutcome</span></code>):</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CANCELED</span></code> is a <em>deliberate</em>, expected outcome — either
 <code class="docutils literal notranslate"><span class="pre">stop_capability()</span></code> was called explicitly, or <code class="docutils literal notranslate"><span class="pre">run_capability()</span></code>’s
-own timeout elapsed. Not a failure.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UNREACHABLE</span></code> means no recent heartbeat was seen on
-<code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> at all — the capability may not even know a
-goal was sent, unlike every other terminal value, which means the
-capability itself is alive and responded (with success or a specific
-kind of failure).</p></li>
+own timeout elapsed, and the capability honored the cancel. Not a
+failure. The cancel is sent once.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TIMEOUT</span></code> means that cancel got no answer within about 5 s: the
+capability is alive but no longer answering for this goal.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UNREACHABLE</span></code> means the capability stopped sending heartbeats on
+<code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> while its goal was running, or its action server
+could not be reached at all — the capability may not even know a goal
+was sent, unlike every other terminal value, which means the capability
+itself is alive and responded (with success or a specific kind of
+failure).</p></li>
 </ul>
 </section>
 <section id="discovery">
 <h2><a class="toc-backref" href="#id4" role="doc-backlink">Discovery</a><a class="headerlink" href="#discovery" title="Permalink to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">FleetSession::discover_capabilities()</span></code> listens on <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code> and
-<code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> for a fixed window (2.5 s by default) and fans the
-result out to every added <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>. This is a good match for a
-scripted mission that discovers once at startup and then runs a bounded
-sequence against whatever it found.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Capability discovery today is a <strong>snapshot, not a live view</strong>: nothing
-currently re-runs it mid-mission, and a robot that appears or
-disappears after the discovery window closes won’t be reflected until
-it’s re-run. <code class="docutils literal notranslate"><span class="pre">RobotHandle::is_alive()</span></code>, unlike the discovery snapshot
-itself, <em>is</em> continuously tracked for the whole mission from
-<code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> heartbeats — so a capability dying mid-mission
-is observable even though the fleet’s capability <em>list</em> isn’t
-re-scanned automatically. Turning discovery itself into a live,
-continuously-updated registry is the natural next step here, and the
-main remaining gap between this architecture and a long-running,
-LLM-driven control loop.</p>
-</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code> keeps a <strong>live registry</strong>: it subscribes to
+<code class="docutils literal notranslate"><span class="pre">/capabilities</span></code> (transient-local, so retained descriptions arrive late
+too) and <code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code> for its whole life, so a capability that
+appears, restarts or dies mid-mission is reflected in every
+<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> without another discovery pass.
+<code class="docutils literal notranslate"><span class="pre">FleetSession::discover_capabilities()</span></code> (<code class="docutils literal notranslate"><span class="pre">window</span></code>, 2.5 s by default;
+Python <code class="docutils literal notranslate"><span class="pre">window_sec</span></code>) is just a <strong>startup wait</strong> that lets the registry
+fill up before the mission’s first decision.</p>
+<p>These queries read the live registry:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RobotHandle::has_capability()</span></code> — the capability is announced and has a
+recent heartbeat.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RobotHandle::is_alive()</span></code> — a recent heartbeat was seen.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RobotHandle::capabilities()</span></code> — every capability this robot announced,
+returned by value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FleetSession::capabilities_of(robot)</span></code> / <code class="docutils literal notranslate"><span class="pre">FleetSession::is_alive(robot,</span>
+<span class="pre">capability)</span></code> — the same, by robot name, for robots without a handle.</p></li>
+</ul>
+<p>Python’s <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code> also has <code class="docutils literal notranslate"><span class="pre">remove_robot()</span></code>. Only a description
+that parses as a JSON <strong>object</strong> is considered valid.</p>
+<section id="lower-level-actionclient">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a><a class="headerlink" href="#lower-level-actionclient" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">easyfleet_core::ActionClient&lt;ActionT&gt;</span></code> (under <code class="docutils literal notranslate"><span class="pre">CapabilityClient</span></code>) wraps
+<code class="docutils literal notranslate"><span class="pre">rclcpp_action::Client</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cancel_all_goals()</span></code> cancels only the goals <strong>this client</strong> sent,
+including ones the server has not accepted yet; other clients’ goals on
+the same server are untouched.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">send_goal_and_wait()</span></code> cancels the goal when its <code class="docutils literal notranslate"><span class="pre">timeout</span></code> elapses
+(<code class="docutils literal notranslate"><span class="pre">TIMEOUT</span></code>), and returns <code class="docutils literal notranslate"><span class="pre">SERVER_UNAVAILABLE</span></code> if the server
+disappears for longer than the client’s server timeout.</p></li>
+</ul>
+</section>
 </section>
 <section id="extensibility-building-other-controllers-on-fleetsession">
-<span id="design-extending-controllers"></span><h2><a class="toc-backref" href="#id5" role="doc-backlink">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a><a class="headerlink" href="#extensibility-building-other-controllers-on-fleetsession" title="Permalink to this heading"></a></h2>
+<span id="design-extending-controllers"></span><h2><a class="toc-backref" href="#id6" role="doc-backlink">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a><a class="headerlink" href="#extensibility-building-other-controllers-on-fleetsession" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">SimpleController</span></code> is the reference example of “a controller with zero
 decision-making logic of its own” — which also makes it the template for
 writing a <em>different</em> one. A controller with real decision-making (an
 <code class="docutils literal notranslate"><span class="pre">LLMController</span></code> that asks a model what to do next from inside its own
 <code class="docutils literal notranslate"><span class="pre">spin_some()</span></code>-driven loop, or a <code class="docutils literal notranslate"><span class="pre">PlanSys2Controller</span></code> whose PDDL action
 implementations reach into the fleet through <code class="docutils literal notranslate"><span class="pre">robots()</span></code>/<code class="docutils literal notranslate"><span class="pre">find_robot()</span></code>)
-is meant to <strong>own a ``FleetSession`` by composition</strong>, the same way
+is meant to own a <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code> <strong>by composition</strong>, the same way
 <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code> does, and add whatever domain-specific logic it needs
 around it — not subclass <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code> itself. This mirrors how the
 rest of EasyFleet favors composition over runtime-polymorphic base classes

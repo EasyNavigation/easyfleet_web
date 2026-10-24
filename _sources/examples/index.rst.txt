@@ -4,12 +4,14 @@
 Examples
 ========
 
-EasyFleet ships four self-contained example deployments, each its own
-package under ``easyfleet_example_deployments/`` (own launch files, own
-config). They range from fully mocked capabilities on a single robot to
-two robots both running real `EasyNavigation <https://easynavigation.github.io/>`_
-navigation at once — and double as integration tests for the whole
-architecture.
+The example deployments live in their own repository,
+`easyfleet_example_deployments <https://github.com/EasyNavigation/easyfleet_example_deployments>`_,
+with its own CI: nine packages, each with its own launch files and config.
+They range from fully mocked capabilities on a single robot to two robots
+running real `EasyNavigation <https://easynavigation.github.io/>`_
+navigation at once, isolated per robot over Zenoh or Fast DDS, and double
+as integration tests for the whole architecture. See
+:doc:`../build_install/index` for how to clone and build them.
 
 If you haven't run any of these yet, :doc:`../getting_started/index`
 walks through the simplest one (``alone``) step by step.
@@ -50,14 +52,55 @@ Overview
      - ``easyfleet_easynav_collaboration_deployment``
      - ``robot_1``, ``robot_2``
      - navigation (real EasyNav, both robots) + perception/manipulation
-       (mock)
+       (mock); low-level API
      - ``launch/easynav_collaboration_launch.yaml``
+   * - ``simple_api``
+     - ``easyfleet_easynav_collaboration_simple_api_deployment``
+     - ``robot_1``, ``robot_2``
+     - same as ``easynav_collaboration``, with ``Deployment``/
+       ``SimpleController``
+     - ``launch/easynav_collaboration_launch.yaml``
+   * - ``simple_api_py``
+     - ``easyfleet_easynav_collaboration_simple_api_deployment_py``
+     - ``robot_1``, ``robot_2``
+     - same, with Python mock capabilities and a Python mission
+     - ``launch/easynav_collaboration_launch.yaml``
+   * - ``zenoh``
+     - ``easyfleet_easynav_collaboration_zenoh_deployment``
+     - ``robot_1``, ``robot_2``
+     - same as ``simple_api``, one Zenoh island per robot
+     - ``launch/easynav_collaboration_launch.yaml``
+   * - ``fastdds``
+     - ``easyfleet_easynav_collaboration_fastdds_deployment``
+     - ``robot_1``, ``robot_2``
+     - same as ``simple_api``, one ``ROS_DOMAIN_ID`` per robot
+     - ``launch/easynav_collaboration_launch.yaml``
+   * - ``farm``
+     - ``easyfleet_easynav_farm_deployment``
+     - ``robot_1`` (Summit XL)
+     - navigation — real EasyNav on a NavMap, GPS localization
+     - ``launch/robot_1_launch.yaml``
 
-Every scenario's top-level launch file starts **both** halves of the
-deployment together: the robot(s) immediately, and mission control a few
-seconds later, once the robot(s) have finished activating. Each robot also
-has its own per-robot launch file that can be run standalone — see
+Every multi-robot scenario's top-level launch file starts **both** halves
+of the deployment together: the robot(s) immediately, and mission control a
+few seconds later, once the robot(s) have finished activating. Each robot
+also has its own per-robot launch file that can be run standalone — see
 :doc:`../design/index` for the robot/mission-control split this relies on.
+
+.. note::
+   The EasyNav scenarios need a real robot or a Gazebo simulation,
+   **started separately**. The simulations now live in
+   `easynav_playgrounds <https://github.com/EasyNavigation/easynav_playgrounds>`_
+   (packages ``easynav_playground_kobuki``, ``easynav_playground_kobuki_worlds``,
+   ...). The multi-robot examples' launch files still reference the archived
+   ``easynav_playground_kobuki`` repository (its
+   ``playgorund_multirobot_kobuki.launch.py``, and ``kobuki_description``/
+   ``aws_robomaker_small_house_world`` in the Zenoh and Fast DDS
+   ``simulation_launch.yaml``), and are being updated to
+   ``easynav_playgrounds``. Its multi-robot simulation
+   (``ros2 launch easynav_playground_kobuki_worlds multirobot_gazebo_sim.launch.yaml``)
+   spawns the Kobukis as ``r1``/``r2`` with per-robot ``tf`` topics, not as
+   ``robot_1``/``robot_2`` on a shared ``/tf`` as these examples expect.
 
 ``alone``: one robot, three mocked capabilities
 ==================================================
@@ -95,20 +138,22 @@ simulation of one, publishing scan/odometry/TF, **started separately**:
 
 .. code-block:: bash
 
-   # in one terminal, if you don't have a real robot:
-   ros2 launch easynav_playground_kobuki playground_monorobot_kobuki.launch.py
+   # in one terminal, if you don't have a real robot: Gazebo + one Kobuki,
+   # unnamespaced, in the small house of the home2 map
+   ros2 launch easynav_playground_kobuki_worlds gazebo_sim.launch.yaml
 
    # in another terminal:
    ros2 launch easyfleet_easynav_deployment easynav_gazebo_launch.yaml
-   # or, namespaced to match a Gazebo robot spawned under "robot_1":
+   # or, namespaced to match a robot spawned under "robot_1":
    # ... robot_namespace:=robot_1
 
 This launches the robot (EasyNav's ``system_main`` + the navigation
-capability), an RViz window, and, a few seconds later,
-``easynav_mission_node``, which sends the robot to one of three configured
-waypoints and then demonstrates goal preemption: a second goal sent while
-the first is still in flight redirects EasyNav without stopping first,
-rather than queuing behind it.
+capability), an RViz window, ``navigation_manager_node`` (publishing the
+map and routes on ``/global_map``/``/global_routes``) and, a few seconds
+later, ``easynav_mission_node``, which sends the robot to one of three
+configured waypoints and then demonstrates goal preemption: a second goal
+sent while the first is still in flight redirects EasyNav without stopping
+first, rather than queuing behind it.
 
 RViz's own **2D Goal Pose** tool also works directly here — it publishes
 to the same topic EasyNav's ``GoalManager`` subscribes to, so dragging a
@@ -125,15 +170,19 @@ watches both of their planned paths for imminent collisions. ``robot_1``
 also carries a mock ``perception`` capability, ``robot_2`` a mock
 ``manipulation`` one.
 
-Needs an actual two-robot Gazebo world:
+Needs a two-robot Gazebo world, with the Kobukis spawned under
+``robot_1``/``robot_2`` (see the note above), then:
 
 .. code-block:: bash
 
-   # terminal 1: spawns both Kobukis under /robot_1 and /robot_2
-   ros2 launch easynav_playground_kobuki playgorund_multirobot_kobuki.launch.py
-
-   # terminal 2: both robots + navigation_manager_node + mission control
+   # both robots + navigation_manager_node + mission control
    ros2 launch easyfleet_easynav_collaboration_deployment easynav_collaboration_launch.yaml
+
+This package is the **low-level** version: ``robot_node`` drives each
+capability's lifecycle by hand, and the mission uses the free
+``discover_capabilities()``/``run_capability()`` functions. See
+``simple_api`` below for the same scenario with ``Deployment`` and
+``RobotHandle``.
 
 ``easynav_collaboration_mission_node`` runs a longer, five-phase
 choreography (simultaneous navigation to different waypoints, one robot
@@ -147,6 +196,122 @@ RViz shows what it's currently doing ("Navigating -> kitchen / Perceiving",
 ``RobotHandle::run_capability()`` uses automatically (see
 :doc:`../design/mission_manager`) — so watching RViz alone is enough to
 follow the mission, no terminal needed.
+
+``simple_api``: the same scenario, simple API
+================================================
+
+Same robots, waypoints and five phases as ``easynav_collaboration``,
+written against the simple API:
+
+- ``robot_node`` is an ``easyfleet::Deployment`` that loads the mock
+  capabilities listed in each robot's ``capabilities`` parameter as
+  pluginlib ``CapabilityFactory`` plugins
+  (``add_capabilities_from_parameters()``).
+- The mission is a ``SimpleController`` with one ``RobotHandle`` per robot;
+  ``run_capability()`` publishes the RViz status markers itself.
+
+.. code-block:: bash
+
+   ros2 launch easyfleet_easynav_collaboration_simple_api_deployment easynav_collaboration_launch.yaml
+
+The top-level launch file also starts ``navigation_manager_node`` and an
+RViz window showing the shared map and routes.
+
+``simple_api_py``: the same scenario, in Python
+==================================================
+
+The Python mirror of ``simple_api``. Navigation is still the C++
+EasyNav-backed capability, with ``simple_api``'s config and RViz files; the
+mock perception and manipulation capabilities are Python
+``Capability``/``ActionServerBase`` subclasses, each its own process run by
+``spin_capability()``, and the mission is a Python ``SimpleController``/
+``RobotHandle`` script (see :ref:`design_python_capability`):
+
+.. code-block:: bash
+
+   ros2 launch easyfleet_easynav_collaboration_simple_api_deployment_py easynav_collaboration_launch.yaml
+
+``zenoh``: one Zenoh island per robot
+=========================================
+
+The ``simple_api`` scenario over ``rmw_zenoh_cpp``, isolating each robot as
+it would be on its own computer: each robot's nodes connect only to that
+robot's own Zenoh router, and each robot router connects to a central one
+(where ``navigation_manager_node``, RViz and mission control run). The
+robots never connect to each other. Each robot router's ACL
+(``config/robot_N/zenoh_router.json5``) lets only the fleet-level contract
+cross: ``/capabilities``, ``/capabilities_status``, ``/global_map``,
+``/global_routes``, ``/clock``, the status markers, TF, and that robot's
+capability actions, planned path, EasyNav control topic and robot
+description.
+
+``launch/simulation_launch.yaml`` starts the three routers, Gazebo, a
+shared ``/clock`` bridge on the central island and both Kobukis, each in
+its own island (see the note above about the simulation packages it
+needs):
+
+.. code-block:: bash
+
+   # terminal 1: routers + Gazebo + both Kobukis
+   ros2 launch easyfleet_easynav_collaboration_zenoh_deployment simulation_launch.yaml
+
+   # terminal 2: both robots + navigation_manager_node + mission control
+   ros2 launch easyfleet_easynav_collaboration_zenoh_deployment easynav_collaboration_launch.yaml
+
+To inspect one island from a terminal, **source** (do not run) the
+matching script first; it sets ``RMW_IMPLEMENTATION`` and
+``ZENOH_SESSION_CONFIG_URI`` and stops the ROS 2 daemon:
+
+.. code-block:: bash
+
+   source $(ros2 pkg prefix easyfleet_easynav_collaboration_zenoh_deployment)/share/easyfleet_easynav_collaboration_zenoh_deployment/scripts/set_central.sh
+   # or set_robot_1.sh / set_robot_2.sh
+   ros2 topic list --no-daemon
+
+``fastdds``: one ``ROS_DOMAIN_ID`` per robot
+================================================
+
+The ``simple_api`` scenario over the default Fast DDS, with a different
+isolation strategy: the central island runs on ``ROS_DOMAIN_ID=0``,
+``robot_1`` on ``1`` and ``robot_2`` on ``2``, and each robot's
+`DDS Router <https://github.com/eProsima/DDS-Router>`_
+(``config/robot_N/dds_router.yaml``) bridges its domain with the central
+one, forwarding only the same fleet-level contract (an allowlist of
+topics).
+
+DDS Router is not a ROS package: build it once with
+``scripts/build_dds_router.sh`` (default prefix
+``~/.local/dds_router``, where the launch files look for the
+``ddsrouter`` executable). Then, as with ``zenoh``:
+
+.. code-block:: bash
+
+   # terminal 1: Gazebo + both Kobukis, each in its robot's domain
+   ros2 launch easyfleet_easynav_collaboration_fastdds_deployment simulation_launch.yaml
+
+   # terminal 2: both robots (with their DDS Routers) + navigation_manager_node + mission control
+   ros2 launch easyfleet_easynav_collaboration_fastdds_deployment easynav_collaboration_launch.yaml
+
+``scripts/set_central.sh`` / ``set_robot_1.sh`` / ``set_robot_2.sh``
+(sourced) set the matching ``ROS_DOMAIN_ID`` in a terminal.
+
+``farm``: one Summit outdoors, NavMap + GPS
+==============================================
+
+One Summit XL, namespaced under ``robot_1``, running real EasyNav
+navigation outdoors: a NavMap map with a routes layer on top, GPS
+localization (``easynav_fusion_localizer``, fusing GPS, wheel odometry and
+IMU) and no range sensor. It reuses ``easyfleet_easynav_deployment``'s
+navigation capability and ships no mission script, only
+``launch/robot_1_launch.yaml``:
+
+.. code-block:: bash
+
+   ros2 launch easyfleet_easynav_farm_deployment robot_1_launch.yaml
+
+.. note::
+   This scenario needs the ``granja_leon`` map/world package, which is not
+   publicly available, and is therefore not in CI.
 
 Poking at a capability by hand
 =================================

@@ -24,8 +24,8 @@ The core types
 ``FleetSession``
    Everything talking to a fleet actually needs, regardless of what
    decides *when* to command which robot: the ROS node and
-   background-spinning executor every ``RobotHandle`` rides on, one shared
-   capability-discovery pass, the registry of added robots, and the
+   background-spinning executor every ``RobotHandle`` rides on, the live
+   capability registry, the registry of added robots, and the
    automatic RViz status markers ``RobotHandle::run_capability()``
    publishes. Deliberately has **no notion of "how a mission decides what
    to do next"** — only "how to talk to the robots once something has
@@ -35,11 +35,14 @@ The core types
 
 ``RobotHandle``
    A remote robot's capabilities, as seen and commanded from a mission
-   script — the client-side counterpart to ``easyfleet_core::Robot``,
+   script — the client-side counterpart to ``easyfleet::Deployment``,
    which *hosts* real capability nodes. A ``RobotHandle`` owns no nodes at
    all: it's a thin, non-blocking, observable proxy over whatever this
-   robot announced on ``/capabilities``, refreshed by the ``FleetSession``
-   it was added to.
+   robot announces on ``/capabilities``, tracked live by the
+   ``FleetSession`` it was added to. Adding it to a second session throws
+   (``std::logic_error``, Python ``MissionManagerError``). In C++ it is not
+   copyable, and destroying it detaches it from its session, dropping its
+   running goals.
 
 ``SimpleController``
    The plain, manual controller: a mission script decides everything by
@@ -120,38 +123,58 @@ of your own), checked at first use rather than at compile time.
 alone can't tell a mission script "it finished, and here's what actually
 happened" apart from "nothing is happening because it crashed". Every
 terminal value mirrors ``easyfleet_core::CapabilityClient``'s own outcome
-one to one:
+one to one (Python ``CapabilityOutcome``):
 
 - ``CANCELED`` is a *deliberate*, expected outcome — either
   ``stop_capability()`` was called explicitly, or ``run_capability()``'s
-  own timeout elapsed. Not a failure.
-- ``UNREACHABLE`` means no recent heartbeat was seen on
-  ``/capabilities_status`` at all — the capability may not even know a
-  goal was sent, unlike every other terminal value, which means the
-  capability itself is alive and responded (with success or a specific
-  kind of failure).
+  own timeout elapsed, and the capability honored the cancel. Not a
+  failure. The cancel is sent once.
+- ``TIMEOUT`` means that cancel got no answer within about 5 s: the
+  capability is alive but no longer answering for this goal.
+- ``UNREACHABLE`` means the capability stopped sending heartbeats on
+  ``/capabilities_status`` while its goal was running, or its action server
+  could not be reached at all — the capability may not even know a goal
+  was sent, unlike every other terminal value, which means the capability
+  itself is alive and responded (with success or a specific kind of
+  failure).
 
 Discovery
 =========
 
-``FleetSession::discover_capabilities()`` listens on ``/capabilities`` and
-``/capabilities_status`` for a fixed window (2.5 s by default) and fans the
-result out to every added ``RobotHandle``. This is a good match for a
-scripted mission that discovers once at startup and then runs a bounded
-sequence against whatever it found.
+A ``FleetSession`` keeps a **live registry**: it subscribes to
+``/capabilities`` (transient-local, so retained descriptions arrive late
+too) and ``/capabilities_status`` for its whole life, so a capability that
+appears, restarts or dies mid-mission is reflected in every
+``RobotHandle`` without another discovery pass.
+``FleetSession::discover_capabilities()`` (``window``, 2.5 s by default;
+Python ``window_sec``) is just a **startup wait** that lets the registry
+fill up before the mission's first decision.
 
-.. note::
-   Capability discovery today is a **snapshot, not a live view**: nothing
-   currently re-runs it mid-mission, and a robot that appears or
-   disappears after the discovery window closes won't be reflected until
-   it's re-run. ``RobotHandle::is_alive()``, unlike the discovery snapshot
-   itself, *is* continuously tracked for the whole mission from
-   ``/capabilities_status`` heartbeats — so a capability dying mid-mission
-   is observable even though the fleet's capability *list* isn't
-   re-scanned automatically. Turning discovery itself into a live,
-   continuously-updated registry is the natural next step here, and the
-   main remaining gap between this architecture and a long-running,
-   LLM-driven control loop.
+These queries read the live registry:
+
+- ``RobotHandle::has_capability()`` — the capability is announced and has a
+  recent heartbeat.
+- ``RobotHandle::is_alive()`` — a recent heartbeat was seen.
+- ``RobotHandle::capabilities()`` — every capability this robot announced,
+  returned by value.
+- ``FleetSession::capabilities_of(robot)`` / ``FleetSession::is_alive(robot,
+  capability)`` — the same, by robot name, for robots without a handle.
+
+Python's ``FleetSession`` also has ``remove_robot()``. Only a description
+that parses as a JSON **object** is considered valid.
+
+Lower level: ``ActionClient``
+------------------------------
+
+``easyfleet_core::ActionClient<ActionT>`` (under ``CapabilityClient``) wraps
+``rclcpp_action::Client``:
+
+- ``cancel_all_goals()`` cancels only the goals **this client** sent,
+  including ones the server has not accepted yet; other clients' goals on
+  the same server are untouched.
+- ``send_goal_and_wait()`` cancels the goal when its ``timeout`` elapses
+  (``TIMEOUT``), and returns ``SERVER_UNAVAILABLE`` if the server
+  disappears for longer than the client's server timeout.
 
 .. _design_extending_controllers:
 
@@ -164,7 +187,7 @@ writing a *different* one. A controller with real decision-making (an
 ``LLMController`` that asks a model what to do next from inside its own
 ``spin_some()``-driven loop, or a ``PlanSys2Controller`` whose PDDL action
 implementations reach into the fleet through ``robots()``/``find_robot()``)
-is meant to **own a ``FleetSession`` by composition**, the same way
+is meant to own a ``FleetSession`` **by composition**, the same way
 ``SimpleController`` does, and add whatever domain-specific logic it needs
 around it — not subclass ``SimpleController`` itself. This mirrors how the
 rest of EasyFleet favors composition over runtime-polymorphic base classes

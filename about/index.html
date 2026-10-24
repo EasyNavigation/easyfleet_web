@@ -60,7 +60,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../build_install/index.html#core-only">Core only</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
@@ -90,7 +93,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#the-core-types">The core types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#discovery">Discovery</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../design/mission_manager.html#lower-level-actionclient">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
 </ul>
 </li>
@@ -102,11 +108,15 @@
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#key-parameters">Key parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#the-navigate-bt-node">The <code class="docutils literal notranslate"><span class="pre">Navigate</span></code> BT node</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#what-s-a-capability">What’s a “capability”?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#interfaces">Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../design/index.html#writing-a-capability-in-python">Writing a capability in Python</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-mission-control-side">The mission-control side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#robot-vs-mission-control">Robot vs. mission control</a></li>
 </ul>
@@ -117,6 +127,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-the-same-scenario-simple-api"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-py-the-same-scenario-in-python"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#zenoh-one-zenoh-island-per-robot"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#fastdds-one-ros-domain-id-per-robot"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#farm-one-summit-outdoors-navmap-gps"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
 </ul>
