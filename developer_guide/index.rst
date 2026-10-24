@@ -28,8 +28,15 @@ code, not just the last tagged release.
 Repository layout
 ====================
 
-EasyFleet is one monorepo, ``EasyNavigation/EasyFleet``, with one branch
-per supported ROS 2 distro (``rolling`` today):
+EasyFleet is split in two repositories, each with one branch per supported
+ROS 2 distro (``rolling`` today) and its own CI:
+
+- `EasyNavigation/EasyFleet <https://github.com/EasyNavigation/EasyFleet>`_
+  — the framework packages below.
+- `EasyNavigation/easyfleet_example_deployments <https://github.com/EasyNavigation/easyfleet_example_deployments>`_
+  — the nine example deployments (see :doc:`../examples/index`).
+
+EasyFleet's packages:
 
 .. list-table::
    :widths: 30 70
@@ -51,14 +58,14 @@ per supported ROS 2 distro (``rolling`` today):
        :doc:`../design/mission_manager`.
    * - ``easyfleet_mission_manager_py``
      - The same API, a 1:1 Python port — for writing a mission controller
-       in Python instead of C++.
+       in Python instead of C++ — plus ``Capability``/``ActionServerBase``/
+       ``spin_capability``/``CapabilityClient`` for writing capabilities in
+       Python.
    * - ``easyfleet_navigation_manager``
      - ``navigation_manager_node`` — see :doc:`../design/navigation_manager`.
    * - ``easyfleet_easynav_navigation``
      - The ``Navigate`` BT.CPP plugin node — the one resource EasyFleet
        itself provides for talking to EasyNav from a Behavior Tree.
-   * - ``easyfleet_example_deployments/*``
-     - The four example deployments — see :doc:`../examples/index`.
    * - ``easyfleet_tools``
      - The read-only fleet-monitoring TUI/CLI.
 
@@ -71,19 +78,22 @@ once your workspace is built and sourced:
 .. code-block:: bash
 
    colcon build --symlink-install --packages-select <package>
-   colcon test --packages-select <package>
+   colcon test --parallel-workers 1 --packages-select <package>
    colcon test-result --verbose
 
-Every test binary that touches ROS communication runs on its own
-``ROS_DOMAIN_ID`` (set explicitly in that package's ``test/CMakeLists.txt``,
-via ``ament_add_gtest(... ENV ROS_DOMAIN_ID=NN)``), so the test suite stays
-safe to run even alongside interactively launched nodes on the default
-domain — they never cross-talk on shared topics like ``/capabilities``.
+Every C++ test binary that touches ROS communication runs with
+``ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST`` and its own ``ROS_DOMAIN_ID``
+(set explicitly in that package's ``test/CMakeLists.txt``, via
+``ament_add_gtest(... ENV ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
+ROS_DOMAIN_ID=NN)``), so the test suite stays safe to run even alongside
+interactively launched nodes on the default domain — they never cross-talk
+on shared topics like ``/capabilities``.
 
-Every package also runs the standard ``ament_lint_auto`` suite
-(``ament_cmake_copyright``, ``uncrustify``, ``cppcheck``, ``lint_cmake``,
-``xmllint``) as part of ``colcon test`` — keep new code passing those
-before opening a pull request.
+Every package also runs its linters as part of ``colcon test`` — the
+``ament_lint_common`` suite for C++ packages (``copyright``, ``cpplint``,
+``uncrustify``, ``cppcheck``, ``lint_cmake``, ``xmllint``), and
+``copyright``/``flake8``/``pep257``/``xmllint`` for the Python ones — keep
+new code passing those before opening a pull request.
 
 Extending EasyFleet
 =======================
@@ -106,7 +116,7 @@ deployment:
 
 Then make it loadable by ``easyfleet_core::Deployment`` with one
 ``PLUGINLIB_EXPORT_CLASS`` line — see
-:ref:`the robot side, in Design <design>` for why ``Deployment`` loads a
+:ref:`the robot side, in Design <design_robot_side>` for why ``Deployment`` loads a
 ``CapabilityFactory``, not the capability class itself:
 
 .. code-block:: cpp
@@ -115,12 +125,14 @@ Then make it loadable by ``easyfleet_core::Deployment`` with one
      (easyfleet_core::CapabilityFactoryFor<NavigationNav2ActionServer>),
      easyfleet_core::CapabilityFactory)
 
-Two real reference implementations of this exact pattern exist in the
-repo, at opposite ends of the "mock vs. real" spectrum: the fake
-capabilities under ``easyfleet_fake_alone_deployment`` (a mock, simulates
-progress on a timer, no external dependency), and
+Two reference implementations of this exact pattern live in the
+deployments repository, at opposite ends of the "mock vs. real" spectrum:
+the fake capabilities under ``easyfleet_fake_alone_deployment`` (a mock,
+simulates progress on a timer, no external dependency), and
 ``easyfleet_easynav_deployment``'s real EasyNav-backed navigation
-capability. Either is a good starting template.
+capability. Either is a good starting template; for a Python capability,
+see :ref:`design_python_capability` and
+``easyfleet_easynav_collaboration_simple_api_deployment_py``.
 
 Writing your own mission controller
 --------------------------------------
@@ -147,20 +159,17 @@ rewrite of the rest of the node.
 Known limitations
 =====================
 
-**Capability discovery is a one-shot snapshot, not a live view.**
-``FleetSession::discover_capabilities()`` listens for a fixed window and
-returns whatever it collected. That's good enough for a scripted mission
-that discovers once at startup, but not for a long-lived, LLM-driven
-Behavior Tree that needs to react to capabilities appearing or
-disappearing mid-mission — see :doc:`../design/mission_manager` for what's
-already tracked continuously (``RobotHandle::is_alive()``) versus what
-isn't (the capability list itself). Turning discovery into a
-continuously-updated, thread-safe registry — and deciding what should
-happen to a goal already in flight when its capability's heartbeat stops
-— is the single biggest gap between today's architecture and the
-control-computer scenario it's meant to validate the plumbing for.
+**Conflict handling is pairwise, with a heuristic priority.**
+``navigation_manager_node`` pauses one robot of each conflicting pair (the
+one with the longer remaining path, with deadlock and hysteresis rules on
+top — see :ref:`design_conflict_detection`). There is no fleet-wide plan or
+traffic schedule.
 
-**``LLMController``/``PlanSys2Controller`` don't exist yet.**
+**No task allocation yet.** Deciding which robot does what is up to the
+mission controller; EasyFleet provides discovery and execution, not
+assignment.
+
+**LLMController and PlanSys2Controller don't exist yet.**
 ``FleetSession``/``RobotHandle``/``SimpleController`` are the foundation
 those would be built on — see :ref:`design_extending_controllers`.
 
@@ -168,7 +177,9 @@ Getting help / contributing
 ===============================
 
 - 📦 Source code and issue tracker:
-  `github.com/EasyNavigation/EasyFleet <https://github.com/EasyNavigation/EasyFleet>`_
+  `github.com/EasyNavigation/EasyFleet <https://github.com/EasyNavigation/EasyFleet>`_;
+  examples:
+  `github.com/EasyNavigation/easyfleet_example_deployments <https://github.com/EasyNavigation/easyfleet_example_deployments>`_
 - Found a bug, or want to propose a feature? Open an issue.
 - Pull requests are welcome — please make sure ``colcon test`` (build +
   lint + unit tests) passes for any package you touch before opening one.

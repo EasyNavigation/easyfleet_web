@@ -61,7 +61,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../build_install/index.html#core-only">Core only</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
@@ -91,7 +94,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#the-core-types">The core types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#discovery">Discovery</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../design/mission_manager.html#lower-level-actionclient">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
 </ul>
 </li>
@@ -103,11 +109,15 @@
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#key-parameters">Key parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#the-navigate-bt-node">The <code class="docutils literal notranslate"><span class="pre">Navigate</span></code> BT node</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#what-s-a-capability">What’s a “capability”?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#interfaces">Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../design/index.html#writing-a-capability-in-python">Writing a capability in Python</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-mission-control-side">The mission-control side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#robot-vs-mission-control">Robot vs. mission control</a></li>
 </ul>
@@ -118,6 +128,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-the-same-scenario-simple-api"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-py-the-same-scenario-in-python"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#zenoh-one-zenoh-island-per-robot"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#fastdds-one-ros-domain-id-per-robot"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#farm-one-summit-outdoors-navmap-gps"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
 </ul>
@@ -208,8 +223,15 @@ code, not just the last tagged release.</p>
 </section>
 <section id="repository-layout">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Repository layout</a><a class="headerlink" href="#repository-layout" title="Permalink to this heading"></a></h2>
-<p>EasyFleet is one monorepo, <code class="docutils literal notranslate"><span class="pre">EasyNavigation/EasyFleet</span></code>, with one branch
-per supported ROS 2 distro (<code class="docutils literal notranslate"><span class="pre">rolling</span></code> today):</p>
+<p>EasyFleet is split in two repositories, each with one branch per supported
+ROS 2 distro (<code class="docutils literal notranslate"><span class="pre">rolling</span></code> today) and its own CI:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/EasyNavigation/EasyFleet">EasyNavigation/EasyFleet</a>
+— the framework packages below.</p></li>
+<li><p><a class="reference external" href="https://github.com/EasyNavigation/easyfleet_example_deployments">EasyNavigation/easyfleet_example_deployments</a>
+— the nine example deployments (see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>).</p></li>
+</ul>
+<p>EasyFleet’s packages:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 30.0%" />
@@ -238,7 +260,9 @@ base classes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager_py</span></code></p></td>
 <td><p>The same API, a 1:1 Python port — for writing a mission controller
-in Python instead of C++.</p></td>
+in Python instead of C++ — plus <code class="docutils literal notranslate"><span class="pre">Capability</span></code>/<code class="docutils literal notranslate"><span class="pre">ActionServerBase</span></code>/
+<code class="docutils literal notranslate"><span class="pre">spin_capability</span></code>/<code class="docutils literal notranslate"><span class="pre">CapabilityClient</span></code> for writing capabilities in
+Python.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_navigation_manager</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> — see <a class="reference internal" href="../design/navigation_manager.html"><span class="doc">Navigation Manager</span></a>.</p></td>
@@ -247,10 +271,7 @@ in Python instead of C++.</p></td>
 <td><p>The <code class="docutils literal notranslate"><span class="pre">Navigate</span></code> BT.CPP plugin node — the one resource EasyFleet
 itself provides for talking to EasyNav from a Behavior Tree.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_example_deployments/*</span></code></p></td>
-<td><p>The four example deployments — see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_tools</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_tools</span></code></p></td>
 <td><p>The read-only fleet-monitoring TUI/CLI.</p></td>
 </tr>
 </tbody>
@@ -261,19 +282,22 @@ itself provides for talking to EasyNav from a Behavior Tree.</p></td>
 <p>See <a class="reference internal" href="../build_install/index.html"><span class="doc">Build &amp; Install</span></a> for the full setup. The short version,
 once your workspace is built and sourced:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>colcon<span class="w"> </span>build<span class="w"> </span>--symlink-install<span class="w"> </span>--packages-select<span class="w"> </span>&lt;package&gt;
-colcon<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--packages-select<span class="w"> </span>&lt;package&gt;
+colcon<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--parallel-workers<span class="w"> </span><span class="m">1</span><span class="w"> </span>--packages-select<span class="w"> </span>&lt;package&gt;
 colcon<span class="w"> </span>test-result<span class="w"> </span>--verbose
 </pre></div>
 </div>
-<p>Every test binary that touches ROS communication runs on its own
-<code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> (set explicitly in that package’s <code class="docutils literal notranslate"><span class="pre">test/CMakeLists.txt</span></code>,
-via <code class="docutils literal notranslate"><span class="pre">ament_add_gtest(...</span> <span class="pre">ENV</span> <span class="pre">ROS_DOMAIN_ID=NN)</span></code>), so the test suite stays
-safe to run even alongside interactively launched nodes on the default
-domain — they never cross-talk on shared topics like <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>.</p>
-<p>Every package also runs the standard <code class="docutils literal notranslate"><span class="pre">ament_lint_auto</span></code> suite
-(<code class="docutils literal notranslate"><span class="pre">ament_cmake_copyright</span></code>, <code class="docutils literal notranslate"><span class="pre">uncrustify</span></code>, <code class="docutils literal notranslate"><span class="pre">cppcheck</span></code>, <code class="docutils literal notranslate"><span class="pre">lint_cmake</span></code>,
-<code class="docutils literal notranslate"><span class="pre">xmllint</span></code>) as part of <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">test</span></code> — keep new code passing those
-before opening a pull request.</p>
+<p>Every C++ test binary that touches ROS communication runs with
+<code class="docutils literal notranslate"><span class="pre">ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST</span></code> and its own <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code>
+(set explicitly in that package’s <code class="docutils literal notranslate"><span class="pre">test/CMakeLists.txt</span></code>, via
+<code class="docutils literal notranslate"><span class="pre">ament_add_gtest(...</span> <span class="pre">ENV</span> <span class="pre">ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST</span>
+<span class="pre">ROS_DOMAIN_ID=NN)</span></code>), so the test suite stays safe to run even alongside
+interactively launched nodes on the default domain — they never cross-talk
+on shared topics like <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>.</p>
+<p>Every package also runs its linters as part of <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">test</span></code> — the
+<code class="docutils literal notranslate"><span class="pre">ament_lint_common</span></code> suite for C++ packages (<code class="docutils literal notranslate"><span class="pre">copyright</span></code>, <code class="docutils literal notranslate"><span class="pre">cpplint</span></code>,
+<code class="docutils literal notranslate"><span class="pre">uncrustify</span></code>, <code class="docutils literal notranslate"><span class="pre">cppcheck</span></code>, <code class="docutils literal notranslate"><span class="pre">lint_cmake</span></code>, <code class="docutils literal notranslate"><span class="pre">xmllint</span></code>), and
+<code class="docutils literal notranslate"><span class="pre">copyright</span></code>/<code class="docutils literal notranslate"><span class="pre">flake8</span></code>/<code class="docutils literal notranslate"><span class="pre">pep257</span></code>/<code class="docutils literal notranslate"><span class="pre">xmllint</span></code> for the Python ones — keep
+new code passing those before opening a pull request.</p>
 </section>
 <section id="extending-easyfleet">
 <h2><a class="toc-backref" href="#id4" role="doc-backlink">Extending EasyFleet</a><a class="headerlink" href="#extending-easyfleet" title="Permalink to this heading"></a></h2>
@@ -292,19 +316,21 @@ deployment:</p>
 </div>
 <p>Then make it loadable by <code class="docutils literal notranslate"><span class="pre">easyfleet_core::Deployment</span></code> with one
 <code class="docutils literal notranslate"><span class="pre">PLUGINLIB_EXPORT_CLASS</span></code> line — see
-<a class="reference internal" href="../design/index.html#design"><span class="std std-ref">the robot side, in Design</span></a> for why <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> loads a
+<a class="reference internal" href="../design/index.html#design-robot-side"><span class="std std-ref">the robot side, in Design</span></a> for why <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> loads a
 <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code>, not the capability class itself:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">PLUGINLIB_EXPORT_CLASS</span><span class="p">(</span>
 <span class="w">  </span><span class="p">(</span><span class="n">easyfleet_core</span><span class="o">::</span><span class="n">CapabilityFactoryFor</span><span class="o">&lt;</span><span class="n">NavigationNav2ActionServer</span><span class="o">&gt;</span><span class="p">),</span>
 <span class="w">  </span><span class="n">easyfleet_core</span><span class="o">::</span><span class="n">CapabilityFactory</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Two real reference implementations of this exact pattern exist in the
-repo, at opposite ends of the “mock vs. real” spectrum: the fake
-capabilities under <code class="docutils literal notranslate"><span class="pre">easyfleet_fake_alone_deployment</span></code> (a mock, simulates
-progress on a timer, no external dependency), and
+<p>Two reference implementations of this exact pattern live in the
+deployments repository, at opposite ends of the “mock vs. real” spectrum:
+the fake capabilities under <code class="docutils literal notranslate"><span class="pre">easyfleet_fake_alone_deployment</span></code> (a mock,
+simulates progress on a timer, no external dependency), and
 <code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_deployment</span></code>’s real EasyNav-backed navigation
-capability. Either is a good starting template.</p>
+capability. Either is a good starting template; for a Python capability,
+see <a class="reference internal" href="../design/index.html#design-python-capability"><span class="std std-ref">Writing a capability in Python</span></a> and
+<code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_collaboration_simple_api_deployment_py</span></code>.</p>
 </section>
 <section id="writing-your-own-mission-controller">
 <h3><a class="toc-backref" href="#id6" role="doc-backlink">Writing your own mission controller</a><a class="headerlink" href="#writing-your-own-mission-controller" title="Permalink to this heading"></a></h3>
@@ -329,19 +355,15 @@ rewrite of the rest of the node.</p>
 </section>
 <section id="known-limitations">
 <h2><a class="toc-backref" href="#id8" role="doc-backlink">Known limitations</a><a class="headerlink" href="#known-limitations" title="Permalink to this heading"></a></h2>
-<p><strong>Capability discovery is a one-shot snapshot, not a live view.</strong>
-<code class="docutils literal notranslate"><span class="pre">FleetSession::discover_capabilities()</span></code> listens for a fixed window and
-returns whatever it collected. That’s good enough for a scripted mission
-that discovers once at startup, but not for a long-lived, LLM-driven
-Behavior Tree that needs to react to capabilities appearing or
-disappearing mid-mission — see <a class="reference internal" href="../design/mission_manager.html"><span class="doc">Mission Manager</span></a> for what’s
-already tracked continuously (<code class="docutils literal notranslate"><span class="pre">RobotHandle::is_alive()</span></code>) versus what
-isn’t (the capability list itself). Turning discovery into a
-continuously-updated, thread-safe registry — and deciding what should
-happen to a goal already in flight when its capability’s heartbeat stops
-— is the single biggest gap between today’s architecture and the
-control-computer scenario it’s meant to validate the plumbing for.</p>
-<p><strong>``LLMController``/``PlanSys2Controller`` don’t exist yet.</strong>
+<p><strong>Conflict handling is pairwise, with a heuristic priority.</strong>
+<code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> pauses one robot of each conflicting pair (the
+one with the longer remaining path, with deadlock and hysteresis rules on
+top — see <a class="reference internal" href="../design/navigation_manager.html#design-conflict-detection"><span class="std std-ref">Conflict detection and pause/resume</span></a>). There is no fleet-wide plan or
+traffic schedule.</p>
+<p><strong>No task allocation yet.</strong> Deciding which robot does what is up to the
+mission controller; EasyFleet provides discovery and execution, not
+assignment.</p>
+<p><strong>LLMController and PlanSys2Controller don’t exist yet.</strong>
 <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>/<code class="docutils literal notranslate"><span class="pre">SimpleController</span></code> are the foundation
 those would be built on — see <a class="reference internal" href="../design/mission_manager.html#design-extending-controllers"><span class="std std-ref">Extensibility: building other controllers on FleetSession</span></a>.</p>
 </section>
@@ -349,7 +371,9 @@ those would be built on — see <a class="reference internal" href="../design/mi
 <h2><a class="toc-backref" href="#id9" role="doc-backlink">Getting help / contributing</a><a class="headerlink" href="#getting-help-contributing" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>📦 Source code and issue tracker:
-<a class="reference external" href="https://github.com/EasyNavigation/EasyFleet">github.com/EasyNavigation/EasyFleet</a></p></li>
+<a class="reference external" href="https://github.com/EasyNavigation/EasyFleet">github.com/EasyNavigation/EasyFleet</a>;
+examples:
+<a class="reference external" href="https://github.com/EasyNavigation/easyfleet_example_deployments">github.com/EasyNavigation/easyfleet_example_deployments</a></p></li>
 <li><p>Found a bug, or want to propose a feature? Open an issue.</p></li>
 <li><p>Pull requests are welcome — please make sure <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">test</span></code> (build +
 lint + unit tests) passes for any package you touch before opening one.</p></li>

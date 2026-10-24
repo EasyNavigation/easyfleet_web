@@ -38,9 +38,13 @@ wrapping exactly one ROS 2 action. Once activated, it:
   controller knows a capability is not just registered but actually
   *alive*, and whether it currently has a goal executing (``busy``) or is
   free to be called, without sending it a goal just to find out.
-- Exposes an ``allow_preemption`` parameter controlling whether a new goal
-  can replace one that's currently running, or must be rejected until the
-  current one finishes or is canceled.
+- Exposes a ``<action_name>.allow_preemption`` parameter (``/`` in the
+  action name mapped to ``.``, changeable at runtime) controlling whether a
+  new goal can replace one that's currently running, or must be rejected
+  until the current one finishes or is canceled. With preemption off, a
+  goal queued to start also counts as busy.
+- Accepts goals **only while ACTIVE**: deactivating the capability rejects
+  new goals and stops the running one.
 - Can always be told to stop early — canceling the goal stops whatever the
   capability was doing: the robot stops moving, the perception stream
   stops reporting, the manipulator stops executing its trajectory.
@@ -67,7 +71,16 @@ one of ``easyfleet_core``'s three domain base classes
 ``PerceptionActionServerBase``) and implementing ``on_goal_received()``/
 ``on_execute()`` — everything else (announcing itself, the heartbeat,
 preemption bookkeeping, cancellation) is handled by ``Capability<T>`` and
-needs no changes. EasyFleet ships one real backend this way, on top of
+needs no changes. Exceptions thrown from the hooks are caught and logged:
+from ``on_goal_received()`` the goal is rejected, from
+``on_cancel_requested()`` the cancel is refused, and from ``on_execute()``
+the goal is aborted (or canceled, if a cancel was requested).
+
+``ActionServerBase`` also exposes ``enable_goals()``/``disable_goals()``/
+``goals_enabled()`` (what ``Capability<T>`` calls on activate/deactivate)
+and ``stop()``. ``on_execute()`` runs on a worker thread that calls into the
+derived class, so **a derived server must call** ``stop()`` **in its own
+destructor**, to join that thread while the derived object still exists. EasyFleet ships one real backend this way, on top of
 `EasyNavigation <https://easynavigation.github.io/>`_'s navigation stack
 — see :doc:`../examples/index`.
 
@@ -117,6 +130,8 @@ since ``.action`` files can't share constants across packages.
    plumbing — isolating that coupling so a Nav2-backed fleet could use it
    too is planned, not done yet.
 
+.. _design_robot_side:
+
 The robot side: ``Deployment`` and ``CapabilityFactory``
 ==========================================================
 
@@ -148,6 +163,55 @@ was launched under — ``Deployment`` needs no namespace of its own.
    deployment.run();
    deployment.shutdown();
 
+``add_capabilities_from_parameters()`` reads the process's ``capabilities``
+(string list) and ``config_subdir`` parameters. ``start()`` configures and
+activates every capability in order; if one fails, the ones already started
+are brought back to UNCONFIGURED and the process exits.
+``try_start()``/``try_add_capabilities_from_parameters()`` do the same but
+return ``false`` instead of exiting.
+
+.. _design_python_capability:
+
+Writing a capability in Python
+-------------------------------
+
+``easyfleet_mission_manager_py`` also has the robot side: ``Capability``
+(a ``rclpy`` lifecycle node), ``ActionServerBase``, ``spin_capability()``
+and ``CapabilityClient``, speaking the same protocol as the C++ ones. A
+Python capability is one process, with no pluginlib layer: pass the
+``ActionServerBase`` subclass to ``Capability`` and hand it to
+``spin_capability()``, which configures, activates, spins and tears it down:
+
+.. code-block:: python
+
+   class MyPerceptionServer(ActionServerBase):
+       def __init__(self, node, action_name):
+           super().__init__(node, Perception, action_name)
+
+       def on_goal_received(self, goal) -> bool:
+           return True
+
+       def on_execute(self, goal_handle):
+           ...                     # poll is_preempt_requested(), is_shutdown_requested()
+           goal_handle.succeed()   # always without arguments
+           return Perception.Result()
+
+
+   class MyPerception(Capability):
+       def __init__(self):
+           super().__init__('perception', MyPerceptionServer)
+
+
+   rclpy.init()
+   spin_capability(MyPerception())
+
+Differences from C++: ``on_execute()`` settles the goal handle without
+arguments and **returns** the ``Result``; the node must be spun by a
+``MultiThreadedExecutor`` (``spin_capability()`` does); preemption is
+serialized as in C++ (the new goal starts once the preempted
+``on_execute()`` returns). The heartbeat runs on a wall-clock timer, as in
+C++, so a paused simulation does not make the capability look dead.
+
 The mission-control side
 ==========================
 
@@ -162,7 +226,7 @@ capabilities it talks to:
 - **C++** — ``easyfleet_mission_manager``'s ``FleetSession``/
   ``RobotHandle``/``SimpleController``.
 - **Python** — ``easyfleet_mission_manager_py``, a 1:1 port of the same
-  three types.
+  three types (plus the robot-side classes above).
 
 See :doc:`mission_manager` for the full API. A minimal controller looks
 like this in either language — this is genuinely all a manual,
@@ -207,9 +271,10 @@ Python) and your own **deployment** (the robot-side launch/config that
 goes with it) is exactly what most EasyFleet users will actually spend
 their time on — ``easyfleet_core``/``easyfleet_mission_manager`` are
 meant to fade into the background once a fleet is up and running. The
-example mission scripts this project ships (a hand-rolled one and its
-``RobotHandle``-based sibling, each available in C++ and Python) are
-templates to start from, not the point of the exercise.
+example mission scripts in the deployments repository (a low-level C++ one
+and its ``RobotHandle``-based sibling, in C++ and Python; see
+:doc:`../examples/index`) are templates to start from, not the point of the
+exercise.
 
 Nothing about ``FleetSession``/``RobotHandle`` assumes a linear script,
 either — see :ref:`design_extending_controllers` below for building a

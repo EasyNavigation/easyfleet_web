@@ -61,7 +61,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../build_install/index.html#core-only">Core only</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
@@ -91,7 +94,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#the-core-types">The core types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#discovery">Discovery</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../design/mission_manager.html#lower-level-actionclient">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../design/mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
 </ul>
 </li>
@@ -103,11 +109,15 @@
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#key-parameters">Key parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../design/navigation_manager.html#the-navigate-bt-node">The <code class="docutils literal notranslate"><span class="pre">Navigate</span></code> BT node</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#what-s-a-capability">What’s a “capability”?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#interfaces">Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../design/index.html#writing-a-capability-in-python">Writing a capability in Python</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#the-mission-control-side">The mission-control side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../design/index.html#robot-vs-mission-control">Robot vs. mission control</a></li>
 </ul>
@@ -118,6 +128,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-api-the-same-scenario-simple-api"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-api-py-the-same-scenario-in-python"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zenoh-one-zenoh-island-per-robot"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fastdds-one-ros-domain-id-per-robot"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#farm-one-summit-outdoors-navmap-gps"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
 </ul>
@@ -174,12 +189,14 @@
              
   <section id="examples">
 <span id="id1"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h1>
-<p>EasyFleet ships four self-contained example deployments, each its own
-package under <code class="docutils literal notranslate"><span class="pre">easyfleet_example_deployments/</span></code> (own launch files, own
-config). They range from fully mocked capabilities on a single robot to
-two robots both running real <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>
-navigation at once — and double as integration tests for the whole
-architecture.</p>
+<p>The example deployments live in their own repository,
+<a class="reference external" href="https://github.com/EasyNavigation/easyfleet_example_deployments">easyfleet_example_deployments</a>,
+with its own CI: nine packages, each with its own launch files and config.
+They range from fully mocked capabilities on a single robot to two robots
+running real <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>
+navigation at once, isolated per robot over Zenoh or Fast DDS, and double
+as integration tests for the whole architecture. See
+<a class="reference internal" href="../build_install/index.html"><span class="doc">Build &amp; Install</span></a> for how to clone and build them.</p>
 <p>If you haven’t run any of these yet, <a class="reference internal" href="../getting_started/index.html"><span class="doc">Getting Started</span></a>
 walks through the simplest one (<code class="docutils literal notranslate"><span class="pre">alone</span></code>) step by step.</p>
 <nav class="contents local" id="on-this-page">
@@ -190,8 +207,13 @@ walks through the simplest one (<code class="docutils literal notranslate"><span
 <li><p><a class="reference internal" href="#collaboration-three-robots-mocked-capabilities" id="id4"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></p></li>
 <li><p><a class="reference internal" href="#easynav-one-robot-real-navigation" id="id5"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></p></li>
 <li><p><a class="reference internal" href="#easynav-collaboration-two-robots-both-real-navigation" id="id6"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></p></li>
-<li><p><a class="reference internal" href="#poking-at-a-capability-by-hand" id="id7">Poking at a capability by hand</a></p></li>
-<li><p><a class="reference internal" href="#monitoring-a-running-fleet" id="id8">Monitoring a running fleet</a></p></li>
+<li><p><a class="reference internal" href="#simple-api-the-same-scenario-simple-api" id="id7"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a></p></li>
+<li><p><a class="reference internal" href="#simple-api-py-the-same-scenario-in-python" id="id8"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a></p></li>
+<li><p><a class="reference internal" href="#zenoh-one-zenoh-island-per-robot" id="id9"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a></p></li>
+<li><p><a class="reference internal" href="#fastdds-one-ros-domain-id-per-robot" id="id10"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a></p></li>
+<li><p><a class="reference internal" href="#farm-one-summit-outdoors-navmap-gps" id="id11"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a></p></li>
+<li><p><a class="reference internal" href="#poking-at-a-capability-by-hand" id="id12">Poking at a capability by hand</a></p></li>
+<li><p><a class="reference internal" href="#monitoring-a-running-fleet" id="id13">Monitoring a running fleet</a></p></li>
 </ul>
 </nav>
 <section id="overview">
@@ -236,16 +258,63 @@ regulated pure-pursuit controller)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_collaboration_deployment</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">robot_1</span></code>, <code class="docutils literal notranslate"><span class="pre">robot_2</span></code></p></td>
 <td><p>navigation (real EasyNav, both robots) + perception/manipulation
-(mock)</p></td>
+(mock); low-level API</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">launch/easynav_collaboration_launch.yaml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simple_api</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_collaboration_simple_api_deployment</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">robot_1</span></code>, <code class="docutils literal notranslate"><span class="pre">robot_2</span></code></p></td>
+<td><p>same as <code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>, with <code class="docutils literal notranslate"><span class="pre">Deployment</span></code>/
+<code class="docutils literal notranslate"><span class="pre">SimpleController</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">launch/easynav_collaboration_launch.yaml</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_collaboration_simple_api_deployment_py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">robot_1</span></code>, <code class="docutils literal notranslate"><span class="pre">robot_2</span></code></p></td>
+<td><p>same, with Python mock capabilities and a Python mission</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">launch/easynav_collaboration_launch.yaml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">zenoh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_collaboration_zenoh_deployment</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">robot_1</span></code>, <code class="docutils literal notranslate"><span class="pre">robot_2</span></code></p></td>
+<td><p>same as <code class="docutils literal notranslate"><span class="pre">simple_api</span></code>, one Zenoh island per robot</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">launch/easynav_collaboration_launch.yaml</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fastdds</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_collaboration_fastdds_deployment</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">robot_1</span></code>, <code class="docutils literal notranslate"><span class="pre">robot_2</span></code></p></td>
+<td><p>same as <code class="docutils literal notranslate"><span class="pre">simple_api</span></code>, one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">launch/easynav_collaboration_launch.yaml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">farm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_farm_deployment</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">robot_1</span></code> (Summit XL)</p></td>
+<td><p>navigation — real EasyNav on a NavMap, GPS localization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">launch/robot_1_launch.yaml</span></code></p></td>
 </tr>
 </tbody>
 </table>
-<p>Every scenario’s top-level launch file starts <strong>both</strong> halves of the
-deployment together: the robot(s) immediately, and mission control a few
-seconds later, once the robot(s) have finished activating. Each robot also
-has its own per-robot launch file that can be run standalone — see
+<p>Every multi-robot scenario’s top-level launch file starts <strong>both</strong> halves
+of the deployment together: the robot(s) immediately, and mission control a
+few seconds later, once the robot(s) have finished activating. Each robot
+also has its own per-robot launch file that can be run standalone — see
 <a class="reference internal" href="../design/index.html"><span class="doc">Design</span></a> for the robot/mission-control split this relies on.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The EasyNav scenarios need a real robot or a Gazebo simulation,
+<strong>started separately</strong>. The simulations now live in
+<a class="reference external" href="https://github.com/EasyNavigation/easynav_playgrounds">easynav_playgrounds</a>
+(packages <code class="docutils literal notranslate"><span class="pre">easynav_playground_kobuki</span></code>, <code class="docutils literal notranslate"><span class="pre">easynav_playground_kobuki_worlds</span></code>,
+…). The multi-robot examples’ launch files still reference the archived
+<code class="docutils literal notranslate"><span class="pre">easynav_playground_kobuki</span></code> repository (its
+<code class="docutils literal notranslate"><span class="pre">playgorund_multirobot_kobuki.launch.py</span></code>, and <code class="docutils literal notranslate"><span class="pre">kobuki_description</span></code>/
+<code class="docutils literal notranslate"><span class="pre">aws_robomaker_small_house_world</span></code> in the Zenoh and Fast DDS
+<code class="docutils literal notranslate"><span class="pre">simulation_launch.yaml</span></code>), and are being updated to
+<code class="docutils literal notranslate"><span class="pre">easynav_playgrounds</span></code>. Its multi-robot simulation
+(<code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">launch</span> <span class="pre">easynav_playground_kobuki_worlds</span> <span class="pre">multirobot_gazebo_sim.launch.yaml</span></code>)
+spawns the Kobukis as <code class="docutils literal notranslate"><span class="pre">r1</span></code>/<code class="docutils literal notranslate"><span class="pre">r2</span></code> with per-robot <code class="docutils literal notranslate"><span class="pre">tf</span></code> topics, not as
+<code class="docutils literal notranslate"><span class="pre">robot_1</span></code>/<code class="docutils literal notranslate"><span class="pre">robot_2</span></code> on a shared <code class="docutils literal notranslate"><span class="pre">/tf</span></code> as these examples expect.</p>
+</div>
 </section>
 <section id="alone-one-robot-three-mocked-capabilities">
 <h2><a class="toc-backref" href="#id3" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">alone</span></code>: one robot, three mocked capabilities</a><a class="headerlink" href="#alone-one-robot-three-mocked-capabilities" title="Permalink to this heading"></a></h2>
@@ -274,21 +343,23 @@ then <code class="docutils literal notranslate"><span class="pre">robot_3</span>
 goals sent actually complete once the robot reaches the target waypoint,
 not just after a fixed mock delay. Needs a real robot or a Gazebo
 simulation of one, publishing scan/odometry/TF, <strong>started separately</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in one terminal, if you don&#39;t have a real robot:</span>
-ros2<span class="w"> </span>launch<span class="w"> </span>easynav_playground_kobuki<span class="w"> </span>playground_monorobot_kobuki.launch.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in one terminal, if you don&#39;t have a real robot: Gazebo + one Kobuki,</span>
+<span class="c1"># unnamespaced, in the small house of the home2 map</span>
+ros2<span class="w"> </span>launch<span class="w"> </span>easynav_playground_kobuki_worlds<span class="w"> </span>gazebo_sim.launch.yaml
 
 <span class="c1"># in another terminal:</span>
 ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_deployment<span class="w"> </span>easynav_gazebo_launch.yaml
-<span class="c1"># or, namespaced to match a Gazebo robot spawned under &quot;robot_1&quot;:</span>
+<span class="c1"># or, namespaced to match a robot spawned under &quot;robot_1&quot;:</span>
 <span class="c1"># ... robot_namespace:=robot_1</span>
 </pre></div>
 </div>
 <p>This launches the robot (EasyNav’s <code class="docutils literal notranslate"><span class="pre">system_main</span></code> + the navigation
-capability), an RViz window, and, a few seconds later,
-<code class="docutils literal notranslate"><span class="pre">easynav_mission_node</span></code>, which sends the robot to one of three configured
-waypoints and then demonstrates goal preemption: a second goal sent while
-the first is still in flight redirects EasyNav without stopping first,
-rather than queuing behind it.</p>
+capability), an RViz window, <code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> (publishing the
+map and routes on <code class="docutils literal notranslate"><span class="pre">/global_map</span></code>/<code class="docutils literal notranslate"><span class="pre">/global_routes</span></code>) and, a few seconds
+later, <code class="docutils literal notranslate"><span class="pre">easynav_mission_node</span></code>, which sends the robot to one of three
+configured waypoints and then demonstrates goal preemption: a second goal
+sent while the first is still in flight redirects EasyNav without stopping
+first, rather than queuing behind it.</p>
 <p>RViz’s own <strong>2D Goal Pose</strong> tool also works directly here — it publishes
 to the same topic EasyNav’s <code class="docutils literal notranslate"><span class="pre">GoalManager</span></code> subscribes to, so dragging a
 goal in RViz drives the robot exactly like a scripted goal would.</p>
@@ -302,14 +373,17 @@ the same <code class="docutils literal notranslate"><span class="pre">/global_ma
 watches both of their planned paths for imminent collisions. <code class="docutils literal notranslate"><span class="pre">robot_1</span></code>
 also carries a mock <code class="docutils literal notranslate"><span class="pre">perception</span></code> capability, <code class="docutils literal notranslate"><span class="pre">robot_2</span></code> a mock
 <code class="docutils literal notranslate"><span class="pre">manipulation</span></code> one.</p>
-<p>Needs an actual two-robot Gazebo world:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># terminal 1: spawns both Kobukis under /robot_1 and /robot_2</span>
-ros2<span class="w"> </span>launch<span class="w"> </span>easynav_playground_kobuki<span class="w"> </span>playgorund_multirobot_kobuki.launch.py
-
-<span class="c1"># terminal 2: both robots + navigation_manager_node + mission control</span>
+<p>Needs a two-robot Gazebo world, with the Kobukis spawned under
+<code class="docutils literal notranslate"><span class="pre">robot_1</span></code>/<code class="docutils literal notranslate"><span class="pre">robot_2</span></code> (see the note above), then:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># both robots + navigation_manager_node + mission control</span>
 ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_deployment<span class="w"> </span>easynav_collaboration_launch.yaml
 </pre></div>
 </div>
+<p>This package is the <strong>low-level</strong> version: <code class="docutils literal notranslate"><span class="pre">robot_node</span></code> drives each
+capability’s lifecycle by hand, and the mission uses the free
+<code class="docutils literal notranslate"><span class="pre">discover_capabilities()</span></code>/<code class="docutils literal notranslate"><span class="pre">run_capability()</span></code> functions. See
+<code class="docutils literal notranslate"><span class="pre">simple_api</span></code> below for the same scenario with <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and
+<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">easynav_collaboration_mission_node</span></code> runs a longer, five-phase
 choreography (simultaneous navigation to different waypoints, one robot
 clearing space for the other, manipulation, and a mid-navigation redirect)
@@ -323,8 +397,110 @@ RViz shows what it’s currently doing (“Navigating -&gt; kitchen / Perceiving
 <a class="reference internal" href="../design/mission_manager.html"><span class="doc">Mission Manager</span></a>) — so watching RViz alone is enough to
 follow the mission, no terminal needed.</p>
 </section>
+<section id="simple-api-the-same-scenario-simple-api">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a><a class="headerlink" href="#simple-api-the-same-scenario-simple-api" title="Permalink to this heading"></a></h2>
+<p>Same robots, waypoints and five phases as <code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>,
+written against the simple API:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">robot_node</span></code> is an <code class="docutils literal notranslate"><span class="pre">easyfleet::Deployment</span></code> that loads the mock
+capabilities listed in each robot’s <code class="docutils literal notranslate"><span class="pre">capabilities</span></code> parameter as
+pluginlib <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code> plugins
+(<code class="docutils literal notranslate"><span class="pre">add_capabilities_from_parameters()</span></code>).</p></li>
+<li><p>The mission is a <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code> with one <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> per robot;
+<code class="docutils literal notranslate"><span class="pre">run_capability()</span></code> publishes the RViz status markers itself.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_simple_api_deployment<span class="w"> </span>easynav_collaboration_launch.yaml
+</pre></div>
+</div>
+<p>The top-level launch file also starts <code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code> and an
+RViz window showing the shared map and routes.</p>
+</section>
+<section id="simple-api-py-the-same-scenario-in-python">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a><a class="headerlink" href="#simple-api-py-the-same-scenario-in-python" title="Permalink to this heading"></a></h2>
+<p>The Python mirror of <code class="docutils literal notranslate"><span class="pre">simple_api</span></code>. Navigation is still the C++
+EasyNav-backed capability, with <code class="docutils literal notranslate"><span class="pre">simple_api</span></code>’s config and RViz files; the
+mock perception and manipulation capabilities are Python
+<code class="docutils literal notranslate"><span class="pre">Capability</span></code>/<code class="docutils literal notranslate"><span class="pre">ActionServerBase</span></code> subclasses, each its own process run by
+<code class="docutils literal notranslate"><span class="pre">spin_capability()</span></code>, and the mission is a Python <code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>/
+<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> script (see <a class="reference internal" href="../design/index.html#design-python-capability"><span class="std std-ref">Writing a capability in Python</span></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_simple_api_deployment_py<span class="w"> </span>easynav_collaboration_launch.yaml
+</pre></div>
+</div>
+</section>
+<section id="zenoh-one-zenoh-island-per-robot">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a><a class="headerlink" href="#zenoh-one-zenoh-island-per-robot" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">simple_api</span></code> scenario over <code class="docutils literal notranslate"><span class="pre">rmw_zenoh_cpp</span></code>, isolating each robot as
+it would be on its own computer: each robot’s nodes connect only to that
+robot’s own Zenoh router, and each robot router connects to a central one
+(where <code class="docutils literal notranslate"><span class="pre">navigation_manager_node</span></code>, RViz and mission control run). The
+robots never connect to each other. Each robot router’s ACL
+(<code class="docutils literal notranslate"><span class="pre">config/robot_N/zenoh_router.json5</span></code>) lets only the fleet-level contract
+cross: <code class="docutils literal notranslate"><span class="pre">/capabilities</span></code>, <code class="docutils literal notranslate"><span class="pre">/capabilities_status</span></code>, <code class="docutils literal notranslate"><span class="pre">/global_map</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/global_routes</span></code>, <code class="docutils literal notranslate"><span class="pre">/clock</span></code>, the status markers, TF, and that robot’s
+capability actions, planned path, EasyNav control topic and robot
+description.</p>
+<p><code class="docutils literal notranslate"><span class="pre">launch/simulation_launch.yaml</span></code> starts the three routers, Gazebo, a
+shared <code class="docutils literal notranslate"><span class="pre">/clock</span></code> bridge on the central island and both Kobukis, each in
+its own island (see the note above about the simulation packages it
+needs):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># terminal 1: routers + Gazebo + both Kobukis</span>
+ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_zenoh_deployment<span class="w"> </span>simulation_launch.yaml
+
+<span class="c1"># terminal 2: both robots + navigation_manager_node + mission control</span>
+ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_zenoh_deployment<span class="w"> </span>easynav_collaboration_launch.yaml
+</pre></div>
+</div>
+<p>To inspect one island from a terminal, <strong>source</strong> (do not run) the
+matching script first; it sets <code class="docutils literal notranslate"><span class="pre">RMW_IMPLEMENTATION</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ZENOH_SESSION_CONFIG_URI</span></code> and stops the ROS 2 daemon:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="k">$(</span>ros2<span class="w"> </span>pkg<span class="w"> </span>prefix<span class="w"> </span>easyfleet_easynav_collaboration_zenoh_deployment<span class="k">)</span>/share/easyfleet_easynav_collaboration_zenoh_deployment/scripts/set_central.sh
+<span class="c1"># or set_robot_1.sh / set_robot_2.sh</span>
+ros2<span class="w"> </span>topic<span class="w"> </span>list<span class="w"> </span>--no-daemon
+</pre></div>
+</div>
+</section>
+<section id="fastdds-one-ros-domain-id-per-robot">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a><a class="headerlink" href="#fastdds-one-ros-domain-id-per-robot" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">simple_api</span></code> scenario over the default Fast DDS, with a different
+isolation strategy: the central island runs on <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID=0</span></code>,
+<code class="docutils literal notranslate"><span class="pre">robot_1</span></code> on <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">robot_2</span></code> on <code class="docutils literal notranslate"><span class="pre">2</span></code>, and each robot’s
+<a class="reference external" href="https://github.com/eProsima/DDS-Router">DDS Router</a>
+(<code class="docutils literal notranslate"><span class="pre">config/robot_N/dds_router.yaml</span></code>) bridges its domain with the central
+one, forwarding only the same fleet-level contract (an allowlist of
+topics).</p>
+<p>DDS Router is not a ROS package: build it once with
+<code class="docutils literal notranslate"><span class="pre">scripts/build_dds_router.sh</span></code> (default prefix
+<code class="docutils literal notranslate"><span class="pre">~/.local/dds_router</span></code>, where the launch files look for the
+<code class="docutils literal notranslate"><span class="pre">ddsrouter</span></code> executable). Then, as with <code class="docutils literal notranslate"><span class="pre">zenoh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># terminal 1: Gazebo + both Kobukis, each in its robot&#39;s domain</span>
+ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_fastdds_deployment<span class="w"> </span>simulation_launch.yaml
+
+<span class="c1"># terminal 2: both robots (with their DDS Routers) + navigation_manager_node + mission control</span>
+ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_collaboration_fastdds_deployment<span class="w"> </span>easynav_collaboration_launch.yaml
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/set_central.sh</span></code> / <code class="docutils literal notranslate"><span class="pre">set_robot_1.sh</span></code> / <code class="docutils literal notranslate"><span class="pre">set_robot_2.sh</span></code>
+(sourced) set the matching <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> in a terminal.</p>
+</section>
+<section id="farm-one-summit-outdoors-navmap-gps">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a><a class="headerlink" href="#farm-one-summit-outdoors-navmap-gps" title="Permalink to this heading"></a></h2>
+<p>One Summit XL, namespaced under <code class="docutils literal notranslate"><span class="pre">robot_1</span></code>, running real EasyNav
+navigation outdoors: a NavMap map with a routes layer on top, GPS
+localization (<code class="docutils literal notranslate"><span class="pre">easynav_fusion_localizer</span></code>, fusing GPS, wheel odometry and
+IMU) and no range sensor. It reuses <code class="docutils literal notranslate"><span class="pre">easyfleet_easynav_deployment</span></code>’s
+navigation capability and ships no mission script, only
+<code class="docutils literal notranslate"><span class="pre">launch/robot_1_launch.yaml</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>launch<span class="w"> </span>easyfleet_easynav_farm_deployment<span class="w"> </span>robot_1_launch.yaml
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This scenario needs the <code class="docutils literal notranslate"><span class="pre">granja_leon</span></code> map/world package, which is not
+publicly available, and is therefore not in CI.</p>
+</div>
+</section>
 <section id="poking-at-a-capability-by-hand">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Poking at a capability by hand</a><a class="headerlink" href="#poking-at-a-capability-by-hand" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Poking at a capability by hand</a><a class="headerlink" href="#poking-at-a-capability-by-hand" title="Permalink to this heading"></a></h2>
 <p>Every capability’s action name is namespaced by robot. Against the
 <code class="docutils literal notranslate"><span class="pre">alone</span></code> scenario, for example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ros2<span class="w"> </span>action<span class="w"> </span>list<span class="w"> </span>-t
@@ -339,7 +515,7 @@ ros2<span class="w"> </span>action<span class="w"> </span>send_goal<span class="
 </div>
 </section>
 <section id="monitoring-a-running-fleet">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Monitoring a running fleet</a><a class="headerlink" href="#monitoring-a-running-fleet" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Monitoring a running fleet</a><a class="headerlink" href="#monitoring-a-running-fleet" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">easyfleet_tools</span></code> provides a read-only TUI (<code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span> <span class="pre">easyfleet_tools</span>
 <span class="pre">tui</span></code>) and a CLI (<code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">easyfleet</span> <span class="pre">&lt;verb&gt;</span></code>) for watching any of the
 scenarios above without hand-assembling <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">topic</span> <span class="pre">echo</span></code>/<code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">action</span>

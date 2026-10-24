@@ -22,7 +22,9 @@ Overview
 --------
 
 We will run the ``alone`` example deployment, shipped in the
-``easyfleet_fake_alone_deployment`` package:
+``easyfleet_fake_alone_deployment`` package of the
+`easyfleet_example_deployments <https://github.com/EasyNavigation/easyfleet_example_deployments>`_
+repository (cloned by the recipe in :doc:`../build_install/index`):
 
 - **Robot:** ``robot_1``, hosting all three capability types, each a mock
   implementation (no external dependency, no real robot needed).

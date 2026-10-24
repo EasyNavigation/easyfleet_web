@@ -48,7 +48,7 @@ top of a per-robot navigation stack such as `EasyNavigation (EasyNav) <https://e
 
 It is structured around:
 
-- **`easyfleet_core`**, a small C++ framework for building self-describing,
+- ``easyfleet_core``, a small C++ framework for building self-describing,
   lifecycle-managed ROS 2 actions ("capabilities") and their client-side
   counterparts.
 - The **Mission Manager**, reusable building blocks — in **C++ or
@@ -59,8 +59,9 @@ It is structured around:
 - The **Navigation Manager**, a fleet-wide process that publishes a shared
   map and route graph, and continuously watches every robot's planned path
   to pause/resume robots on imminent conflicts.
-- **Example deployments**, self-contained scenarios (mock capabilities,
-  single- and multi-robot real EasyNav navigation) that double as
+- **Example deployments**, in their own repository: self-contained
+  scenarios (mock capabilities, single- and multi-robot real EasyNav
+  navigation, C++ and Python, Zenoh and Fast DDS isolation) that double as
   integration tests for the whole architecture.
 
 Whether you are prototyping a single robot with a handful of mocked
@@ -72,7 +73,8 @@ We invite you to explore, use, and contribute to this project!
 
 📚 Learn more about the team behind the project in :ref:`about`.
 
-📦 Source code: `github.com/EasyNavigation/EasyFleet <https://github.com/EasyNavigation/EasyFleet>`_
+📦 Source code: `github.com/EasyNavigation/EasyFleet <https://github.com/EasyNavigation/EasyFleet>`_ ·
+example deployments: `github.com/EasyNavigation/easyfleet_example_deployments <https://github.com/EasyNavigation/easyfleet_example_deployments>`_
 
 📢 Want to contribute? Feel free to open an issue, suggest a feature, or submit a pull request!
 

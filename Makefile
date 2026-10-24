@@ -23,7 +23,7 @@ help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	@echo ""
 	@echo "make publish"
-	@echo "   publish generated html to easyfleet.github.io:"
+	@echo "   publish generated html to easynavigation.github.io/easyfleet_web:"
 	@echo "   specify RELEASE=name to publish as a tagged release version"
 	@echo "   and placed in a version subfolder. Requires repo merge permission."
 
@@ -39,7 +39,7 @@ clean:
 
 publish:
 	rm -rf $(PUBLISHDIR)
-	git clone --reference . https://github.com/EasyNavigation/easyfleet.github.io.git $(PUBLISHDIR)
+	git clone --reference . https://github.com/EasyNavigation/easyfleet_web.git $(PUBLISHDIR)
 	cd $(PUBLISHDIR) && \
 	git checkout gh-pages && \
 	rm -fr $(PUBLISHDIR)/*

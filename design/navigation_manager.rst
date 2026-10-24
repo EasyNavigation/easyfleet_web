@@ -85,12 +85,19 @@ start/end markers with move/rotate controls, plus "add segment" and
 "remove segment" buttons.
 
 Every geometry-changing edit (dragging an endpoint, adding, or removing a
-segment — not merely toggling edit mode) does two things automatically:
+segment — not merely toggling edit mode) is committed once, when it ends:
+on ``MOUSE_UP`` for a drag, on ``BUTTON_CLICK`` for the buttons. A commit
+does two things:
 
 1. Re-publishes the updated route graph on ``/global_routes``, so every
    robot picks up the edit immediately.
-2. Saves the change back to the same YAML file the routes were loaded
-   from, so it survives a restart.
+2. Saves it to ``routes.save_path_file`` if set, otherwise back to the
+   file the routes were loaded from, so it survives a restart.
+
+.. warning::
+   Without ``routes.save_path_file``, edits overwrite the file in the
+   package's install space — which, with ``colcon build --symlink-install``,
+   is the file in your **source tree**.
 
 .. note::
    The plain visualization ``MarkerArray`` on ``/global_routes_markers``
@@ -119,8 +126,7 @@ Tracking which robots exist
 The set of robots being watched (for the TF broadcast above, and for the
 conflict monitor below) can be configured two ways:
 
-- **``robots.static_list``** — a fixed list of robot namespaces. Simplest,
-  and what every current example deployment uses.
+- ``robots.static_list`` — a fixed list of robot namespaces.
 - **Dynamic tracking** (when ``robots.static_list`` is empty) — a plain
   subscription to ``/capabilities_status`` records a heartbeat timestamp
   per robot; a periodic timer adds a watcher for any newly-heard-from
@@ -128,7 +134,7 @@ conflict monitor below) can be configured two ways:
   ``robots.staleness_sec``. No extra ``rclcpp::Node``, executor, or thread
   is created for this — a deliberate constraint on this package: **one
   node, one executor**, everything driven by plain subscription callbacks
-  and timers on that same node.
+  and timers on that same node. Every example deployment uses this mode.
 
 .. _design_conflict_detection:
 
@@ -136,9 +142,17 @@ Conflict detection and pause/resume
 =======================================
 
 ``navigation_manager_node`` continuously watches every tracked robot's
-currently planned path (one lightweight watcher per robot, all sharing the
-same node) and, on a timer, checks every pair of robots for an imminent
-path conflict:
+currently planned path and EasyNav's ``GoalManager`` control messages (one
+lightweight watcher per robot, all sharing the same node). From the
+``ACCEPT``/``FEEDBACK``/``FINISHED``/``FAILED``/``CANCELLED``/``PAUSED``/
+``RESUMED``/``REJECT`` messages it tracks whether the robot has an active
+goal, whether it is paused, and its ``current_pose`` (from ``FEEDBACK``).
+
+On a timer, it considers only robots with an active goal and a path no
+older than ``conflict.path_timeout_sec``. A robot's position is its
+``FEEDBACK`` pose if no older than ``conflict.pose_timeout_sec`` (the path
+is then trimmed to start there), otherwise the path's first pose. Then it
+checks every pair of robots for an imminent path conflict:
 
 - Two robots' *current positions* must be within
   ``conflict.proximity_radius_m`` of each other — a coarse, cheap
@@ -151,15 +165,31 @@ When both hold, the robot with the **longer remaining path** to its own
 goal is paused — the one closer to finishing continues, clearing the
 conflict zone sooner. Pausing/resuming is done over EasyNav's own
 ``GoalManager`` control protocol, the same mechanism a capability uses to
-pause/resume a single robot's own navigation.
+pause/resume a single robot's own navigation. Further rules keep the
+decision stable:
 
-.. important::
-   A robot that's **already paused** because of a conflict keeps yielding
-   regardless of how the remaining-path-length comparison changes tick to
-   tick — without this rule, a stationary robot's remaining path can
-   become numerically shorter than the moving robot's, causing the two to
-   flip which one yields back and forth. Once the conflict monitor decides
-   who stops, that decision holds until the conflict genuinely clears.
+- **A paused robot keeps yielding.** While one robot of a pair is already
+  paused, it keeps yielding regardless of how the remaining-path-length
+  comparison changes tick to tick — otherwise a stationary robot's
+  remaining path can become shorter than the moving robot's and the two
+  flip back and forth.
+- **Both paused: one is released.** If both robots of a pair are paused,
+  the one with the longer remaining path keeps yielding and the other is
+  resumed.
+- **Deadlock escape.** A robot paused for more than
+  ``conflict.max_pause_sec`` gets priority: the other robot of the pair
+  yields instead.
+- **Hysteresis on resume.** While either robot of a pair is paused, both
+  distance thresholds are multiplied by
+  ``conflict.resume_hysteresis_factor``, so a replanned path wobbling
+  around the threshold does not pause and resume the robot over and over.
+- **Pause re-sent.** A new goal clears EasyNav's pause; if the robot must
+  still yield, ``PAUSE`` is sent again.
+- **Only its own pauses.** The node only resumes robots it paused itself,
+  and resumes a robot it paused before dropping it from tracking.
+
+Conflicts are handled **pairwise**, with this heuristic priority; there is
+no fleet-wide plan or traffic schedule.
 
 Every conflict-check tick logs, at ``DEBUG`` level, why each nearby pair
 either is or isn't considered a risk — including explicitly noting when
@@ -179,12 +209,15 @@ Key parameters
      - Meaning
    * - ``map_type``
      - Which ``MapPublisherBase`` implementation to use. Only
-       ``"costmap"`` exists today.
+       ``"costmap"`` (the default) exists today.
    * - ``map.package`` / ``map.map_path_file``
-     - Where to load the fleet-wide map from.
+     - Where to load the fleet-wide map from. ``package`` is optional when
+       ``map_path_file`` is absolute.
    * - ``routes.package`` / ``routes.map_path_file``
-     - Where to load the fleet-wide route graph from (and where live edits
-       are saved back to).
+     - Where to load the fleet-wide route graph from. Same rule.
+   * - ``routes.save_path_file``
+     - Where live edits are saved. Empty (the default): back to
+       ``routes.map_path_file``.
    * - ``routes.markers_republish_rate_hz``
      - How often the visualization ``MarkerArray`` is re-published (see
        the note above). Default 1 Hz.
@@ -193,11 +226,46 @@ Key parameters
        tracking instead.
    * - ``robots.staleness_sec`` / ``robots.rescan_rate_hz``
      - Dynamic-tracking-only: how long without a heartbeat before a robot
-       is dropped, and how often that check runs.
+       is dropped (default 5.0 s), and how often that check runs (default
+       1 Hz).
    * - ``robots.planner_plugin_key``
      - The ``planner_types`` entry name each robot's ``PlannerNode`` is
        configured with — determines which per-robot path topic to watch.
+       Default ``"simple"``.
    * - ``conflict.check_rate_hz``
-     - How often the conflict-detection timer runs.
+     - How often the conflict-detection timer runs. Default 2 Hz.
    * - ``conflict.lookahead_distance_m`` / ``conflict.path_conflict_distance_m`` / ``conflict.proximity_radius_m``
-     - See :ref:`design_conflict_detection` above.
+     - See :ref:`design_conflict_detection` above. Defaults 2.0 / 0.6 /
+       3.0 m.
+   * - ``conflict.resume_hysteresis_factor``
+     - Threshold multiplier while a robot of the pair is paused. Default
+       1.5.
+   * - ``conflict.path_timeout_sec``
+     - Paths older than this are ignored. Default 6.0 s.
+   * - ``conflict.pose_timeout_sec``
+     - ``FEEDBACK`` poses older than this are ignored (the path's first
+       pose is used instead). Default 2.0 s.
+   * - ``conflict.max_pause_sec``
+     - After this long paused, a robot gets priority. Default 30.0 s.
+
+.. _design_navigate_bt_node:
+
+The ``Navigate`` BT node
+========================
+
+``easyfleet_easynav_navigation`` provides ``Navigate``, a BehaviorTree.CPP
+node that drives EasyNav through ``easynav::GoalManagerClient``. The
+EasyNav-backed navigation capability of the example deployments uses it.
+Its ports:
+
+- ``goal_id`` — the waypoint to go to, resolved against a waypoint
+  registry read from the blackboard. Missing or unknown: ``FAILURE``.
+- ``response_timeout`` — seconds EasyNav may take to accept a goal
+  (default 5). If it does not accept in time, the node returns
+  ``FAILURE``.
+
+If ``goal_id`` changes while the node is ``RUNNING``, the new goal is sent
+once ``GoalManagerClient`` can take it. Limitation: if EasyNav rejects that
+preemption (only when it is configured not to allow preemption), it stays
+on the previous goal, and the node cannot tell this apart from an accepted
+one. Halting the node leaves an in-flight EasyNav goal alone.

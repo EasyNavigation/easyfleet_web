@@ -7,9 +7,9 @@
 
 .. _project repo: https://github.com/EasyNavigation/EasyFleet
 
-.. _documentation site: https://easyfleet.github.io/
+.. _documentation site: https://easynavigation.github.io/easyfleet_web/
 
-.. _project website: https://easyfleet.github.io/
+.. _project website: https://easynavigation.github.io/easyfleet_web/
 
 .. |PP| replace:: https://github.com/EasyNavigation/EasyFleet/blob/rolling
 

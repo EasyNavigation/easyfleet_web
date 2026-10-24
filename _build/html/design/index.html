@@ -61,7 +61,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../build_install/index.html#build-from-source">Build from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#workspace-layout">Workspace layout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#clone-sources">Clone sources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../build_install/index.html#core-only">Core only</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#install-dependencies">Install dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#configure-and-build">Configure and build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../build_install/index.html#source-the-overlay">Source the overlay</a></li>
@@ -91,7 +94,10 @@
 <li class="toctree-l3"><a class="reference internal" href="mission_manager.html#the-core-types">The core types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mission_manager.html#a-minimal-mission-script">A minimal mission script</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mission_manager.html#capabilitystate-richer-than-running-not-running"><code class="docutils literal notranslate"><span class="pre">CapabilityState</span></code>: richer than running/not-running</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#discovery">Discovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mission_manager.html#discovery">Discovery</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mission_manager.html#lower-level-actionclient">Lower level: <code class="docutils literal notranslate"><span class="pre">ActionClient</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="mission_manager.html#extensibility-building-other-controllers-on-fleetsession">Extensibility: building other controllers on <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code></a></li>
 </ul>
 </li>
@@ -103,11 +109,15 @@
 <li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#tracking-which-robots-exist">Tracking which robots exist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#conflict-detection-and-pause-resume">Conflict detection and pause/resume</a></li>
 <li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#key-parameters">Key parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navigation_manager.html#the-navigate-bt-node">The <code class="docutils literal notranslate"><span class="pre">Navigate</span></code> BT node</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#what-s-a-capability">What’s a “capability”?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interfaces">Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-robot-side-deployment-and-capabilityfactory">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#writing-a-capability-in-python">Writing a capability in Python</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#the-mission-control-side">The mission-control side</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#robot-vs-mission-control">Robot vs. mission control</a></li>
 </ul>
@@ -118,6 +128,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#collaboration-three-robots-mocked-capabilities"><code class="docutils literal notranslate"><span class="pre">collaboration</span></code>: three robots, mocked capabilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-one-robot-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav</span></code>: one robot, real navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#easynav-collaboration-two-robots-both-real-navigation"><code class="docutils literal notranslate"><span class="pre">easynav_collaboration</span></code>: two robots, both real navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-the-same-scenario-simple-api"><code class="docutils literal notranslate"><span class="pre">simple_api</span></code>: the same scenario, simple API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#simple-api-py-the-same-scenario-in-python"><code class="docutils literal notranslate"><span class="pre">simple_api_py</span></code>: the same scenario, in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#zenoh-one-zenoh-island-per-robot"><code class="docutils literal notranslate"><span class="pre">zenoh</span></code>: one Zenoh island per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#fastdds-one-ros-domain-id-per-robot"><code class="docutils literal notranslate"><span class="pre">fastdds</span></code>: one <code class="docutils literal notranslate"><span class="pre">ROS_DOMAIN_ID</span></code> per robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html#farm-one-summit-outdoors-navmap-gps"><code class="docutils literal notranslate"><span class="pre">farm</span></code>: one Summit outdoors, NavMap + GPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#poking-at-a-capability-by-hand">Poking at a capability by hand</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/index.html#monitoring-a-running-fleet">Monitoring a running fleet</a></li>
 </ul>
@@ -183,9 +198,13 @@ several robots sharing the same space.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#what-s-a-capability" id="id2">What’s a “capability”?</a></p></li>
 <li><p><a class="reference internal" href="#interfaces" id="id3">Interfaces</a></p></li>
-<li><p><a class="reference internal" href="#the-robot-side-deployment-and-capabilityfactory" id="id4">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></p></li>
-<li><p><a class="reference internal" href="#the-mission-control-side" id="id5">The mission-control side</a></p></li>
-<li><p><a class="reference internal" href="#robot-vs-mission-control" id="id6">Robot vs. mission control</a></p></li>
+<li><p><a class="reference internal" href="#the-robot-side-deployment-and-capabilityfactory" id="id4">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#writing-a-capability-in-python" id="id5">Writing a capability in Python</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#the-mission-control-side" id="id6">The mission-control side</a></p></li>
+<li><p><a class="reference internal" href="#robot-vs-mission-control" id="id7">Robot vs. mission control</a></p></li>
 </ul>
 </nav>
 <div class="toctree-wrapper compound">
@@ -207,9 +226,13 @@ does, its requirements, effects, parameters).</p></li>
 controller knows a capability is not just registered but actually
 <em>alive</em>, and whether it currently has a goal executing (<code class="docutils literal notranslate"><span class="pre">busy</span></code>) or is
 free to be called, without sending it a goal just to find out.</p></li>
-<li><p>Exposes an <code class="docutils literal notranslate"><span class="pre">allow_preemption</span></code> parameter controlling whether a new goal
-can replace one that’s currently running, or must be rejected until the
-current one finishes or is canceled.</p></li>
+<li><p>Exposes a <code class="docutils literal notranslate"><span class="pre">&lt;action_name&gt;.allow_preemption</span></code> parameter (<code class="docutils literal notranslate"><span class="pre">/</span></code> in the
+action name mapped to <code class="docutils literal notranslate"><span class="pre">.</span></code>, changeable at runtime) controlling whether a
+new goal can replace one that’s currently running, or must be rejected
+until the current one finishes or is canceled. With preemption off, a
+goal queued to start also counts as busy.</p></li>
+<li><p>Accepts goals <strong>only while ACTIVE</strong>: deactivating the capability rejects
+new goals and stops the running one.</p></li>
 <li><p>Can always be told to stop early — canceling the goal stops whatever the
 capability was doing: the robot stops moving, the perception stream
 stops reporting, the manipulator stops executing its trajectory.</p></li>
@@ -232,7 +255,15 @@ one of <code class="docutils literal notranslate"><span class="pre">easyfleet_co
 <code class="docutils literal notranslate"><span class="pre">PerceptionActionServerBase</span></code>) and implementing <code class="docutils literal notranslate"><span class="pre">on_goal_received()</span></code>/
 <code class="docutils literal notranslate"><span class="pre">on_execute()</span></code> — everything else (announcing itself, the heartbeat,
 preemption bookkeeping, cancellation) is handled by <code class="docutils literal notranslate"><span class="pre">Capability&lt;T&gt;</span></code> and
-needs no changes. EasyFleet ships one real backend this way, on top of
+needs no changes. Exceptions thrown from the hooks are caught and logged:
+from <code class="docutils literal notranslate"><span class="pre">on_goal_received()</span></code> the goal is rejected, from
+<code class="docutils literal notranslate"><span class="pre">on_cancel_requested()</span></code> the cancel is refused, and from <code class="docutils literal notranslate"><span class="pre">on_execute()</span></code>
+the goal is aborted (or canceled, if a cancel was requested).</p>
+<p><code class="docutils literal notranslate"><span class="pre">ActionServerBase</span></code> also exposes <code class="docutils literal notranslate"><span class="pre">enable_goals()</span></code>/<code class="docutils literal notranslate"><span class="pre">disable_goals()</span></code>/
+<code class="docutils literal notranslate"><span class="pre">goals_enabled()</span></code> (what <code class="docutils literal notranslate"><span class="pre">Capability&lt;T&gt;</span></code> calls on activate/deactivate)
+and <code class="docutils literal notranslate"><span class="pre">stop()</span></code>. <code class="docutils literal notranslate"><span class="pre">on_execute()</span></code> runs on a worker thread that calls into the
+derived class, so <strong>a derived server must call</strong> <code class="docutils literal notranslate"><span class="pre">stop()</span></code> <strong>in its own
+destructor</strong>, to join that thread while the derived object still exists. EasyFleet ships one real backend this way, on top of
 <a class="reference external" href="https://easynavigation.github.io/">EasyNavigation</a>’s navigation stack
 — see <a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>.</p>
 <div class="admonition note">
@@ -284,7 +315,7 @@ too is planned, not done yet.</p>
 </div>
 </section>
 <section id="the-robot-side-deployment-and-capabilityfactory">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><a class="headerlink" href="#the-robot-side-deployment-and-capabilityfactory" title="Permalink to this heading"></a></h2>
+<span id="design-robot-side"></span><h2><a class="toc-backref" href="#id4" role="doc-backlink">The robot side: <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">CapabilityFactory</span></code></a><a class="headerlink" href="#the-robot-side-deployment-and-capabilityfactory" title="Permalink to this heading"></a></h2>
 <p>One process per robot, one <code class="docutils literal notranslate"><span class="pre">easyfleet_core::Deployment</span></code> per process —
 matching reality: a real fleet’s robots each have their own onboard
 computer, so a deployment abstraction spanning several robots in one
@@ -310,9 +341,52 @@ was launched under — <code class="docutils literal notranslate"><span class="p
 <span class="n">deployment</span><span class="p">.</span><span class="n">shutdown</span><span class="p">();</span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">add_capabilities_from_parameters()</span></code> reads the process’s <code class="docutils literal notranslate"><span class="pre">capabilities</span></code>
+(string list) and <code class="docutils literal notranslate"><span class="pre">config_subdir</span></code> parameters. <code class="docutils literal notranslate"><span class="pre">start()</span></code> configures and
+activates every capability in order; if one fails, the ones already started
+are brought back to UNCONFIGURED and the process exits.
+<code class="docutils literal notranslate"><span class="pre">try_start()</span></code>/<code class="docutils literal notranslate"><span class="pre">try_add_capabilities_from_parameters()</span></code> do the same but
+return <code class="docutils literal notranslate"><span class="pre">false</span></code> instead of exiting.</p>
+<section id="writing-a-capability-in-python">
+<span id="design-python-capability"></span><h3><a class="toc-backref" href="#id5" role="doc-backlink">Writing a capability in Python</a><a class="headerlink" href="#writing-a-capability-in-python" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager_py</span></code> also has the robot side: <code class="docutils literal notranslate"><span class="pre">Capability</span></code>
+(a <code class="docutils literal notranslate"><span class="pre">rclpy</span></code> lifecycle node), <code class="docutils literal notranslate"><span class="pre">ActionServerBase</span></code>, <code class="docutils literal notranslate"><span class="pre">spin_capability()</span></code>
+and <code class="docutils literal notranslate"><span class="pre">CapabilityClient</span></code>, speaking the same protocol as the C++ ones. A
+Python capability is one process, with no pluginlib layer: pass the
+<code class="docutils literal notranslate"><span class="pre">ActionServerBase</span></code> subclass to <code class="docutils literal notranslate"><span class="pre">Capability</span></code> and hand it to
+<code class="docutils literal notranslate"><span class="pre">spin_capability()</span></code>, which configures, activates, spins and tears it down:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyPerceptionServer</span><span class="p">(</span><span class="n">ActionServerBase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">action_name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Perception</span><span class="p">,</span> <span class="n">action_name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_goal_received</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goal_handle</span><span class="p">):</span>
+        <span class="o">...</span>                     <span class="c1"># poll is_preempt_requested(), is_shutdown_requested()</span>
+        <span class="n">goal_handle</span><span class="o">.</span><span class="n">succeed</span><span class="p">()</span>   <span class="c1"># always without arguments</span>
+        <span class="k">return</span> <span class="n">Perception</span><span class="o">.</span><span class="n">Result</span><span class="p">()</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPerception</span><span class="p">(</span><span class="n">Capability</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;perception&#39;</span><span class="p">,</span> <span class="n">MyPerceptionServer</span><span class="p">)</span>
+
+
+<span class="n">rclpy</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">spin_capability</span><span class="p">(</span><span class="n">MyPerception</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Differences from C++: <code class="docutils literal notranslate"><span class="pre">on_execute()</span></code> settles the goal handle without
+arguments and <strong>returns</strong> the <code class="docutils literal notranslate"><span class="pre">Result</span></code>; the node must be spun by a
+<code class="docutils literal notranslate"><span class="pre">MultiThreadedExecutor</span></code> (<code class="docutils literal notranslate"><span class="pre">spin_capability()</span></code> does); preemption is
+serialized as in C++ (the new goal starts once the preempted
+<code class="docutils literal notranslate"><span class="pre">on_execute()</span></code> returns). The heartbeat runs on a wall-clock timer, as in
+C++, so a paused simulation does not make the capability look dead.</p>
+</section>
 </section>
 <section id="the-mission-control-side">
-<h2><a class="toc-backref" href="#id5" role="doc-backlink">The mission-control side</a><a class="headerlink" href="#the-mission-control-side" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">The mission-control side</a><a class="headerlink" href="#the-mission-control-side" title="Permalink to this heading"></a></h2>
 <p>A separate process discovers a fleet’s capabilities and drives them —
 never linked against any capability’s implementation, only against
 <code class="docutils literal notranslate"><span class="pre">easyfleet_interfaces</span></code>’ action types. Two client libraries speak the
@@ -324,7 +398,7 @@ capabilities it talks to:</p>
 <li><p><strong>C++</strong> — <code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager</span></code>’s <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/
 <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>/<code class="docutils literal notranslate"><span class="pre">SimpleController</span></code>.</p></li>
 <li><p><strong>Python</strong> — <code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager_py</span></code>, a 1:1 port of the same
-three types.</p></li>
+three types (plus the robot-side classes above).</p></li>
 </ul>
 <p>See <a class="reference internal" href="mission_manager.html"><span class="doc">Mission Manager</span></a> for the full API. A minimal controller looks
 like this in either language — this is genuinely all a manual,
@@ -366,9 +440,10 @@ Python) and your own <strong>deployment</strong> (the robot-side launch/config t
 goes with it) is exactly what most EasyFleet users will actually spend
 their time on — <code class="docutils literal notranslate"><span class="pre">easyfleet_core</span></code>/<code class="docutils literal notranslate"><span class="pre">easyfleet_mission_manager</span></code> are
 meant to fade into the background once a fleet is up and running. The
-example mission scripts this project ships (a hand-rolled one and its
-<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>-based sibling, each available in C++ and Python) are
-templates to start from, not the point of the exercise.</p>
+example mission scripts in the deployments repository (a low-level C++ one
+and its <code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code>-based sibling, in C++ and Python; see
+<a class="reference internal" href="../examples/index.html"><span class="doc">Examples</span></a>) are templates to start from, not the point of the
+exercise.</p>
 <p>Nothing about <code class="docutils literal notranslate"><span class="pre">FleetSession</span></code>/<code class="docutils literal notranslate"><span class="pre">RobotHandle</span></code> assumes a linear script,
 either — see <a class="reference internal" href="mission_manager.html#design-extending-controllers"><span class="std std-ref">Extensibility: building other controllers on FleetSession</span></a> below for building a
 controller with real decision-making on top of the exact same primitives:
@@ -378,7 +453,7 @@ example) action implementations reach into the fleet through
 <code class="docutils literal notranslate"><span class="pre">robots()</span></code>/<code class="docutils literal notranslate"><span class="pre">find_robot()</span></code> instead of a fixed phase-by-phase script.</p>
 </section>
 <section id="robot-vs-mission-control">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Robot vs. mission control</a><a class="headerlink" href="#robot-vs-mission-control" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Robot vs. mission control</a><a class="headerlink" href="#robot-vs-mission-control" title="Permalink to this heading"></a></h2>
 <p>Every EasyFleet deployment is split into two kinds of process that never
 link against each other’s implementation, only ever talk over ROS
 actions/topics:</p>

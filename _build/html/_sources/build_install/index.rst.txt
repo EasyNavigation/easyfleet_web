@@ -30,18 +30,9 @@ Prerequisites
 
 1. ROS 2 Rolling
 
-   You can either use a system-wide ROS 2 Rolling install, or a self-contained
-   `Pixi <https://pixi.sh>`_ environment (the approach this project's own
-   development workspace uses — see the ``pixi.toml``/``pixi.lock`` at the
-   root of the workspace for the exact dependency set).
-
    .. code-block:: bash
 
-      # System-wide ROS 2:
       source /opt/ros/rolling/setup.bash
-
-      # ...or a Pixi environment already set up for "rolling":
-      eval "$(pixi shell-hook -e rolling --frozen)"
 
 2. ROS dependencies
 
@@ -51,7 +42,7 @@ Prerequisites
       rosdep update
 
 3. A few extra system packages EasyFleet itself needs on top of a plain
-   ROS 2 install: ``nlohmann-json3-dev`` (JSON parsing in the mission
+   ROS 2 install: ``nlohmann-json-dev`` (JSON parsing in the mission
    manager and the EasyNav deployment) and ``behaviortree_cpp`` (the
    Behavior-Tree-based navigation capability). Both are picked up
    automatically by ``rosdep`` below.
@@ -73,29 +64,45 @@ Clone sources
 ~~~~~~~~~~~~~
 
 EasyFleet is built on top of `EasyNavigation
-<https://easynavigation.github.io/>`_: a working EasyFleet workspace needs
-both, plus EasyNav's own plugin collection and its (transitive) dependencies.
+<https://easynavigation.github.io/>`_. The example deployments used
+throughout :doc:`../getting_started/index` and :doc:`../examples/index` live
+in their own repository,
+`easyfleet_example_deployments <https://github.com/EasyNavigation/easyfleet_example_deployments>`_,
+whose ``.repos`` file brings everything else:
+
+.. code-block:: bash
+
+   cd ~/easyfleet_ws/src
+   git clone -b rolling https://github.com/EasyNavigation/easyfleet_example_deployments.git
+   vcs import < easyfleet_example_deployments/easyfleet_example_deployments.repos
+
+This clones, all on their ``rolling`` branch:
+
+- `EasyFleet <https://github.com/EasyNavigation/EasyFleet>`__ itself.
+- `EasyNavigation <https://github.com/EasyNavigation/EasyNavigation>`__,
+  `easynav_plugins <https://github.com/EasyNavigation/easynav_plugins>`_,
+  `NavMap <https://github.com/EasyNavigation/NavMap>`_ and
+  `yaets <https://github.com/fmrico/yaets>`_: the EasyNav stack and its
+  dependencies.
+- `easynav_playgrounds <https://github.com/EasyNavigation/easynav_playgrounds>`_:
+  Gazebo simulations (Kobuki, Summit XL, TIAGo, omnidirectional robots)
+  with their worlds, maps and EasyNav configurations.
+- `robot_localization <https://github.com/cra-ros-pkg/robot_localization>`_
+  (``rolling-devel``), needed by ``easynav_fusion_localizer`` and not
+  released as a binary for rolling.
+
+Core only
+^^^^^^^^^
+
+To build just the EasyFleet packages, without the examples, clone EasyFleet
+and its third-party dependencies (EasyNavigation, easynav_plugins, NavMap,
+yaets). This is what EasyFleet's own CI builds:
 
 .. code-block:: bash
 
    cd ~/easyfleet_ws/src
    git clone -b rolling https://github.com/EasyNavigation/EasyFleet.git
-   git clone -b rolling https://github.com/EasyNavigation/EasyNavigation.git
-   git clone -b rolling https://github.com/EasyNavigation/NavMap.git
-   git clone -b rolling https://github.com/EasyNavigation/easynav_plugins.git
-   git clone -b rolling https://github.com/fmrico/yaets.git
-
-For the examples used throughout :doc:`../getting_started/index` and
-:doc:`../examples/index` (maps, parameter files, RViz configurations, and a
-Gazebo simulation), also clone:
-
-.. code-block:: bash
-
-   cd ~/easyfleet_ws/src
-   git clone https://github.com/EasyNavigation/easynav_indoor_testcase.git
-   git clone -b rolling https://github.com/EasyNavigation/easynav_playground_kobuki.git
-   # easynav_playground_kobuki's own third-party dependencies (robot description, sim assets):
-   vcs import . < easynav_playground_kobuki/thirdparty.repos
+   vcs import < EasyFleet/.github/thirdparty_rolling.repos
 
 Install dependencies
 ~~~~~~~~~~~~~~~~~~~~~
@@ -120,7 +127,7 @@ Source the overlay
 
 .. code-block:: bash
 
-   # Source ROS 2 first, unless you're already in a Pixi shell that provides it
+   # Source ROS 2 first
    source /opt/ros/rolling/setup.bash
    # Then source the workspace
    source ~/easyfleet_ws/install/setup.bash
@@ -131,14 +138,17 @@ Run tests (optional)
 .. code-block:: bash
 
    cd ~/easyfleet_ws
-   colcon test --packages-select easyfleet_core easyfleet_interfaces \
-     easyfleet_mission_manager easyfleet_navigation_manager \
-     easyfleet_easynav_navigation
+   colcon test --parallel-workers 1 --packages-select \
+     easyfleet_interfaces easyfleet_core easyfleet_mission_manager \
+     easyfleet_mission_manager_py easyfleet_navigation_manager \
+     easyfleet_easynav_navigation easyfleet_tools
    colcon test-result --verbose
 
-Each ROS-communication test binary in EasyFleet runs on its own
-``ROS_DOMAIN_ID``, so the suite is safe to run even alongside interactively
-launched nodes — see :doc:`../developer_guide/index` for details.
+``--parallel-workers 1`` runs one package at a time, as CI does. Each C++
+ROS-communication test binary runs with
+``ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST`` and its own ``ROS_DOMAIN_ID``,
+so it neither leaves the machine nor cross-talks with interactively launched
+nodes. See :doc:`../developer_guide/index` for details.
 
 Troubleshooting
 ----------------
